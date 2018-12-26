@@ -1,9 +1,7 @@
 package by.mlionik.cafe.filter;
 
-import by.mlionik.cafe.entity.User;
 import by.mlionik.cafe.entity.type.RoleType;
 import by.mlionik.cafe.manager.ConfigurationManager;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebFilter(dispatcherTypes = {
-        DispatcherType.REQUEST,
+        DispatcherType.REQUEST, //todo не нужны они все, посмотреть, какие нужны
         DispatcherType.FORWARD,
         DispatcherType.INCLUDE},
         urlPatterns = {"/controller", "/jsp/*"}, servletNames = {"Controller"})
@@ -31,7 +29,7 @@ public class SessionFilter implements Filter{
     {
         HttpServletRequest request = (HttpServletRequest)servletRequest;
         HttpServletResponse response = (HttpServletResponse)servletResponse;
-        HttpSession session=request.getSession();
+        HttpSession session=request.getSession(false);
         if (session == null) {
             response.sendRedirect(ConfigurationManager.getProperty(INDEX_PAGE_PATH));
             return;

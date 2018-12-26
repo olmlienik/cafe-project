@@ -12,6 +12,7 @@ public class ChangeLanguageCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static final String LANGUAGE_PARAM = "language";
     private static final String LOCALE_ATTR = "locale";
+    private static final String SESSION_LAST_PAGE = "lastPage";
     private static final String INDEX_PAGE_PATH = "path.page.index";
 
     @Override
@@ -21,6 +22,8 @@ public class ChangeLanguageCommand implements ActionCommand {
 
             String locale = requestContent.getParameter(LANGUAGE_PARAM);
             requestContent.setSessionAttribute(LOCALE_ATTR, locale);
+//            page = requestContent.getSessionAttribute(SESSION_LAST_PAGE);
+
             page = ConfigurationManager.getProperty(INDEX_PAGE_PATH);
         } catch (NoSuchRequestParameterException e) {
             logger.log(Level.ERROR, e);

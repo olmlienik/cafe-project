@@ -8,7 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8;" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -17,24 +16,27 @@
 </head>
 
 <body>
+<c:set var="lastPage" value="../jsp/registrationForm.jsp" scope="session" />
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="localisation.locale"/>
+<fmt:setBundle basename="localization.locale"/>
+
+<c:import url="header.jsp"/>
+
 <div class="login-page">
     <div class="form">
-        <%--class="registration-form"--%>
         <form  method="post" action="/controller">
             <input type="hidden" name="command" value="sign_up">
             <div class="field required">
                 <input type="text" class="login" name="login"
                        placeholder="<fmt:message key="username"/>"
-                       pattern="^([a-zA-Z]+)[a-zA-Z\d_]{4,}$"
+                       pattern="^([a-zA-Z]+)[a-zA-Z\d_]{4,45}$"
                        title="<fmt:message key="login.requirements"/>"
                        required/>
             </div>
             <div class="field required">
                 <input type="password" id="password" class="password" name="password"
                        placeholder="<fmt:message key="password"/>"
-                       pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$"
+                       pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,45}$"
                        title="<fmt:message key="password.requirements"/>"
                        required/>
             </div>
@@ -47,7 +49,7 @@
             <div class="field required email-container">
                 <input type="email" class="email" name="email"
                        placeholder="<fmt:message key="email"/>"
-                       pattern="[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+"
+                       pattern="[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+{,45}"
                        title="<fmt:message key="email.requirements"/>"
                        required/>
             </div>
@@ -74,5 +76,8 @@
         </form>
     </div>
 </div>
+
+<c:import url="footer.jsp"/>
+
 </body>
 </html>

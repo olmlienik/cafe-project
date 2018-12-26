@@ -11,18 +11,24 @@ public class SessionRequestContent {
     private Map<String, Object> requestAttributes = new HashMap<>();
     private Map<String, String[]> requestParameters = new HashMap<>();
     private Map<String, Object> sessionAttributes = new HashMap<>();
-    private HttpSession session;
-//    private HttpServletRequest request; //todo delete
+//    private HttpSession session; сессию можно инвалидировать в insertValues каком-нибудь, там есть доступ к сессии через request
 
     public SessionRequestContent(HttpServletRequest request) {
-//        this.request = request;
         extractValues(request);
-        session =  request.getSession();
+     //  session =  request.getSession();
     }
 
     public void removeSessionAttribute(String attribute) {
         sessionAttributes.remove(attribute);
-        session.removeAttribute(attribute);
+       // session.removeAttribute(attribute);
+    }
+
+    public String getSessionAttribute(String attributeName) throws NoSuchRequestParameterException{
+        if (sessionAttributes.get(attributeName) != null) {
+            return (String) sessionAttributes.get(attributeName);
+        } else {
+            throw new NoSuchRequestParameterException(attributeName);
+        }
     }
 
     public String getParameter(String parameterName) throws NoSuchRequestParameterException {

@@ -13,7 +13,9 @@ public abstract class AbstractDAO<T extends Entity> {
     }
 
     public void setConnection(Connection connection){
-        //todo что делать, если пришел не ProxyConnection
+        if (!(connection instanceof ProxyConnection)){
+           //todo throw exception
+        }
         ProxyConnection proxyConnection = (ProxyConnection) connection;
         this.connection = proxyConnection;
     }

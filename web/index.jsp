@@ -12,6 +12,6 @@
   </head>
 
   <body>
-  <jsp:forward page="/jsp/mainWithRoles.jsp"/>
+  <jsp:forward page="/jsp/main.jsp"/>
   </body>
 </html>

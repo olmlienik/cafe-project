@@ -29,7 +29,7 @@ public class FindAllDishesCommand implements ActionCommand {
             requestContent.setAttribute(DISH_ATTR, dishList);
             page = ConfigurationManager.getProperty(MENU_PAGE_PATH);
         } catch (ServiceException e) {
-            logger.log(Level.ERROR, e, e);
+            logger.log(Level.ERROR, e);
             requestContent.setAttribute(ERROR_ATTR, e.getMessage());
             page = ConfigurationManager.getProperty(ERROR_PAGE_PATH);
         }

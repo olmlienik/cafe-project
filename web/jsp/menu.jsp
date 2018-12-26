@@ -11,30 +11,36 @@
 <html>
 <head>
     <title>Menu</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<section class="section-movies">
-    <c:forEach var="dish" items="${requestScope.dish}">
-        <ul>
-            <li>
-                <div class="dish">
-                    <%--<a href="controller?command=show_movie_page&movieId=${movie.id}">--%>
-                        <h4 class="title"><c:out value="${dish.name}"/></h4>
-                    <%--</a>--%>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="localization.locale"/>
+<c:set var="lastPage" value="/controller?command=find_all_dishes" scope="session" />
 
-                    <div class="poster">
-                        <a href="#">
-                            <img src="${dish.picture}" alt="${dish.name}"/>
-                        </a>
+<c:import url="header.jsp"/>
+
+<div class="tab-content">
+    <div class="container">
+        <div class="tab-pane fade in active">
+            <c:forEach var="dish" items="${requestScope.dish}">
+                <div class="media">
+                    <div class="media-left">
+                        <img src="${dish.picture}" class="media-object" style="width:300px">
                     </div>
-
-                    <p class="description"><c:out value="${dish.cost}"/></p>
+                    <div class="media-body">
+                        <h4 class="media-heading">${dish.name}</h4>
+                            <%--<p>${dish.descr}</p>--%>
+                        <p><strong>Price</strong>${dish.cost}$ </p>
+                    </div>
                 </div>
-            </li>
-        </ul>
-    </c:forEach>
-    <%--<a href="${requestScope.previous_page}"><fmt:message key="back"/></a>--%>
-</section>
-</section>
+                <button type="submit" name="foodElem" value="meal|${meal.id}" class="btn btn-default">Add to order</button>
+                <hr>
+            </c:forEach>
+        </div>
+    </div>
+</div>
+
+<c:import url="footer.jsp"/>
 </body>
 </html>

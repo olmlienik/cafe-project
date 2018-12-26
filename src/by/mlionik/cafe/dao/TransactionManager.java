@@ -1,7 +1,8 @@
-package by.mlionik.cafe.pool;
+package by.mlionik.cafe.dao;
 
 import by.mlionik.cafe.dao.AbstractDAO;
 import by.mlionik.cafe.dao.DaoException;
+import by.mlionik.cafe.pool.ConnectionPool;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +26,7 @@ public class TransactionManager {
         }
     }
 
-    public void endTransaction() throws DaoException {
+    public void endTransaction() {
         try{
             connection.setAutoCommit(true);
         } catch (SQLException e){

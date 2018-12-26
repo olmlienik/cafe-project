@@ -440,9 +440,9 @@ ul.contact li a.icon-rss:before
 		background-size: cover;
 	}
 
-/*#banner-wrapper*/
-/*{*/
-/*}*/
+#banner-wrapper
+{
+}
 
 #banner
 {
@@ -548,6 +548,7 @@ ul.contact li a.icon-rss:before
 	overflow: hidden;
 	padding: 6em 0em 10em 0em;
 	border-top: 1px solid rgba(255,255,255,0.08);
+	background-color: #2b2b2b;
 }
 
 #copyright p
@@ -556,7 +557,7 @@ ul.contact li a.icon-rss:before
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 0.80em;
-	color: rgba(255,255,255,0.3);
+	/*color: rgba(255,255,255,0.3);*/
 }
 
 #copyright a

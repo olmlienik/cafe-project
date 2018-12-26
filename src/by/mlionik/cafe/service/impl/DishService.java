@@ -4,7 +4,7 @@ import by.mlionik.cafe.dao.DaoException;
 import by.mlionik.cafe.dao.impl.DishDao;
 import by.mlionik.cafe.entity.Dish;
 import by.mlionik.cafe.manager.MessageManager;
-import by.mlionik.cafe.pool.TransactionManager;
+import by.mlionik.cafe.dao.TransactionManager;
 import by.mlionik.cafe.service.DishServiceAction;
 import by.mlionik.cafe.service.ServiceException;
 
@@ -22,8 +22,11 @@ public class DishService implements DishServiceAction {
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(dishDAO);
         try {
-            return dishDAO.findAll();
+            List<Dish> allDishes = dishDAO.findAll();
+            manager.commit();
+            return allDishes;
         } catch (DaoException e) {
+            manager.rollBack();
             throw new ServiceException(MessageManager.getProperty(FIND_DISH_ERROR_MSG), e);
         }
     }

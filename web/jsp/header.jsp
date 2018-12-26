@@ -16,25 +16,23 @@
 
 <body>
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="localisation.locale"/>
+<fmt:setBundle basename="localization.locale"/>
 <div id="header">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href=""><fmt:message key="cafe"/></a>
+                <a class="navbar-brand" href="/index.jsp"><fmt:message key="cafe"/></a>
             </div>
             <ul class="nav navbar-nav navbar-left">
                 <c:choose>
                     <c:when test="${sessionScope.role == 'GUEST'}">
 
-                        <%--<c:if test="${sessionScope.role == 'GUEST'}">--%>
-                        <li><a href="controller?command=find_all_dishes"><fmt:message key="menu.btn"/></a></li>
+                        <li><a href="/controller?command=find_all_dishes"><fmt:message key="menu.btn"/></a></li>
 
 
                         <li><a href="../jsp/loginForm.jsp"><fmt:message key="login.btn"/></a></li>
 
                         <li><a href="../jsp/registrationForm.jsp"><fmt:message key="sign.up"/></a></li>
-                        <%--</c:if>--%>
 
                     </c:when>
                     <c:otherwise>
@@ -46,13 +44,9 @@
                             </c:when>
                             <c:when test="${sessionScope.role =='ADMIN'}">
                                 <li><a href="../jsp/profileAdmin.jsp">Admin profile</a></li>
-                                <%--<li> <button input type="submit" onclick="setCommVal('MAIN_FORWARD')" name="action"--%>
-                                <%--value="controlFoodMenu" class="btn btn-default navbar-btn">${menuManage}</button> </li>--%>
                             </c:when>
                         </c:choose>
-                        <li><a href="controller?command=logout">Log out</a></li>
-                        <%--<li> <button input type="submit" onclick="setCommVal('LOGOUT')" name="action"--%>
-                        <%--value="logout" class="btn btn-default navbar-btn">${logout}</button> </li>--%>
+                        <li><a href="/controller?command=logout">Log out</a></li>
                     </c:otherwise>
                 </c:choose>
 

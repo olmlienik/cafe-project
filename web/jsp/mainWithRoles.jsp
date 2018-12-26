@@ -22,7 +22,7 @@
 
 <body>
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="localisation.locale"/>
+<fmt:setBundle basename="localization.locale"/>
 
 <c:import url="header.jsp"/>
 

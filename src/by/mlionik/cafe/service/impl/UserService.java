@@ -4,10 +4,11 @@ import by.mlionik.cafe.dao.impl.UserDao;
 import by.mlionik.cafe.dao.DaoException;
 import by.mlionik.cafe.entity.User;
 import by.mlionik.cafe.manager.MessageManager;
-import by.mlionik.cafe.pool.TransactionManager;
+import by.mlionik.cafe.dao.TransactionManager;
 import by.mlionik.cafe.service.ServiceException;
 import by.mlionik.cafe.service.UserServiceAction;
 import by.mlionik.cafe.util.UserValidator;
+
 import java.util.Optional;
 
 public class UserService implements UserServiceAction {
@@ -30,9 +31,13 @@ public class UserService implements UserServiceAction {
             } else {
                 currentUser.setInvalidUserInfo(userValidator.getInvalidUserInfo());
             }
+            manager.commit();
             return currentUser;
         } catch (DaoException e) {
+            manager.rollBack();
             throw new ServiceException(MessageManager.getProperty(CREATE_USER_ERROR_MSG), e);
+        } finally {
+            manager.endTransaction();
         }
     }
 
@@ -45,9 +50,13 @@ public class UserService implements UserServiceAction {
             User user = Optional.ofNullable(userDAO.findById(id))
                     .orElseThrow(() -> new ServiceException(MessageManager.getProperty(FIND_USER_ERROR_MSG)));
             //todo add reviews to list
+            manager.commit();
             return user;
         } catch (DaoException e) {
+            manager.rollBack();
             throw new ServiceException(MessageManager.getProperty(FIND_USER_ERROR_MSG), e);
+        } finally {
+            manager.endTransaction();
         }
     }
 
@@ -63,9 +72,13 @@ public class UserService implements UserServiceAction {
             } else {
                 currentUser.setInvalidUserInfo(userValidator.getInvalidUserInfo());
             }
+            manager.commit();
             return currentUser;
         } catch (DaoException e) {
+            manager.rollBack();
             throw new ServiceException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+        } finally {
+            manager.endTransaction();
         }
     }
 
@@ -75,9 +88,14 @@ public class UserService implements UserServiceAction {
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(userDAO);
         try {
-            return userDAO.deleteById(id);
+            boolean isDeleted = userDAO.deleteById(id);
+            manager.commit();
+            return isDeleted;
         } catch (DaoException e) {
+            manager.rollBack();
             throw new ServiceException(MessageManager.getProperty(DELETE_USER_ERROR_MSG), e);
+        } finally {
+            manager.endTransaction();
         }
     }
 
@@ -87,9 +105,14 @@ public class UserService implements UserServiceAction {
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(userDAO);
         try {
-            return userDAO.findByLoginAndPassword(login, password);
+            User user = userDAO.findByLoginAndPassword(login, password);
+            manager.commit();
+            return user;
         } catch (DaoException e) {
+            manager.rollBack();
             throw new ServiceException(MessageManager.getProperty(FIND_USER_ERROR_MSG), e);
+        } finally {
+            manager.endTransaction();
         }
     }
 
@@ -99,9 +122,14 @@ public class UserService implements UserServiceAction {
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(userDAO);
         try {
-            return userDAO.findByLogin(login);
+            User user = userDAO.findByLogin(login);
+            manager.commit();
+            return user;
         } catch (DaoException e) {
+            manager.rollBack();
             throw new ServiceException(MessageManager.getProperty(FIND_USER_ERROR_MSG), e);
+        } finally {
+            manager.endTransaction();
         }
     }
 

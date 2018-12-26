@@ -14,43 +14,18 @@
     <link href="/css/common.css" rel="stylesheet">
 
     <c:set var="language" value="${sessionScope.languge}"/>
+    <fmt:setBundle basename="localization.locale"/>
     <fmt:setLocale value="${language}" />
-    <%--<fmt:setBundle basename="property.text" var="local"/>--%>
-    <%--<fmt:message bundle="${local}" key="page.foodMenu.title" var="title" />--%>
-    <%--<fmt:message bundle="${local}" key="page.foodMenu.ourMenu" var="ourMenuHeader" />--%>
-    <%--<fmt:message bundle="${local}" key="page.demoFood.warn" var="warn" />--%>
-    <%--<fmt:message bundle="${local}" key="page.foodMenu.meal" var="meal" />--%>
-    <%--<fmt:message bundle="${local}" key="page.foodMenu.desserts" var="desserts" />--%>
-    <%--<fmt:message bundle="${local}" key="page.foodMenu.drinks" var="drinks" />--%>
-    <%--<fmt:message bundle="${local}" key="page.foodMenu.elementPrice" var="elPrice" />--%>
 
-    <title>${title}</title>
+    <title>Our menu</title>
 
-    <script>
-        function setCommVal(val){
-            document.getElementById('coomId').value = val;
-            return true;
-        }
-    </script>
 </head>
 
 <body>
+<c:import url="header.jsp"/>
+<form action="/controller" method="post">
 
-<form action="FrontController" method="post">
-
-    <input type="hidden" id="coomId" name="command" value="">
     <%--<c:set var="lastPage" value="/jsp/base/demoFoodMenu.jsp" scope="session" />--%>
-
-    <%--<jsp:include page="/jsp/header/headerBase.jsp"/>--%>
-
-    <div class="container">
-        <div class="page-header">
-            <h1> ${ourMenuHeader} </h1>
-        </div>
-
-        <div class="alert alert-warning">
-            <p >${warn}</p>
-        </div>
 
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#panel1">meal</a></li>
@@ -63,17 +38,21 @@
                 <h3>meal</h3>
 
                 <c:forEach var="dish" items="${requestScope.dish}">
-                    <div class="media">
-                        <div class="media-left">
-                            <img src="${dish.picture}" class="media-object" style="width:100px">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">${dish.name}</h4>
-                            <%--<p>${dish.descr}</p>--%>
-                            <p> <strong>Price</strong>${dish.cost}$ </p>
-                        </div>
-                    </div>
-                    <hr>
+                    <ul>
+                        <li>
+                            <div class="dish">
+                                <h4 class="title"><c:out value="${dish.name}"/></h4>
+
+                                <div class="poster">
+                                    <a href="#">
+                                        <img src="${dish.picture}" alt="${dish.name}"/>
+                                    </a>
+                                </div>
+
+                                <p class="description"><c:out value="${dish.cost}"/></p>
+                            </div>
+                        </li>
+                    </ul>
                 </c:forEach>
 
             </div>
@@ -120,10 +99,7 @@
         </div>
     </div>
 
-
-    <footer class="footer">
-        <p class="text-muted">Footer</p>
-    </footer>
+    <c:import url="footer.jsp"/>
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
 

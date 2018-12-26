@@ -3,8 +3,6 @@ package by.mlionik.cafe.pool;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -44,25 +42,6 @@ public class ConnectionPool {
         }
         return instance;
     }
-
-//    public ProxyConnection takeConnection() {
-//        ProxyConnection proxyConnection = null;
-//        try {
-//            proxyConnection = connections.take();
-//        } catch (InterruptedException e) {
-//            logger.log(Level.ERROR, e);
-//            Thread.currentThread().interrupt();
-//        }
-//        return proxyConnection;
-//    }
-
-//    public void returnConnection(ProxyConnection connection) {
-//        try {
-//            connections.put(connection);
-//        } catch (InterruptedException e) {
-//            logger.log(Level.ERROR, e);
-//        }
-//    }
 
     public Connection takeConnection() {
         ProxyConnection proxyConnection = null;
