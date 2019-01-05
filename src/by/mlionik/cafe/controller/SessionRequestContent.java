@@ -2,7 +2,6 @@ package by.mlionik.cafe.controller;
 
 import by.mlionik.cafe.exception.NoSuchRequestParameterException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,21 +10,18 @@ public class SessionRequestContent {
     private Map<String, Object> requestAttributes = new HashMap<>();
     private Map<String, String[]> requestParameters = new HashMap<>();
     private Map<String, Object> sessionAttributes = new HashMap<>();
-//    private HttpSession session; сессию можно инвалидировать в insertValues каком-нибудь, там есть доступ к сессии через request
 
     public SessionRequestContent(HttpServletRequest request) {
         extractValues(request);
-     //  session =  request.getSession();
     }
 
     public void removeSessionAttribute(String attribute) {
         sessionAttributes.remove(attribute);
-       // session.removeAttribute(attribute);
     }
 
-    public String getSessionAttribute(String attributeName) throws NoSuchRequestParameterException{
+    public Object getSessionAttribute(String attributeName) throws NoSuchRequestParameterException{
         if (sessionAttributes.get(attributeName) != null) {
-            return (String) sessionAttributes.get(attributeName);
+            return sessionAttributes.get(attributeName);
         } else {
             throw new NoSuchRequestParameterException(attributeName);
         }
@@ -87,5 +83,4 @@ public class SessionRequestContent {
             sessionAttributes.put(name, value);
         }
     }
-
 }

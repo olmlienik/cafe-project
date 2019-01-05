@@ -21,40 +21,35 @@
 </head>
 
 <body>
-<fmt:setBundle basename="localization.locale"/>
-<fmt:setLocale value="${sessionScope.locale}"/>
-<c:set var="lastPage" value="/jsp/main.jsp" scope="session" />
-
 <c:import url="header.jsp"/>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="localization.locale"/>
+<c:set var="lastPage" value="/jsp/main.jsp" scope="session" />
 
 <div id="header-featured">
     <div id="banner-wrapper">
         <div id="banner" class="container">
             <h2><fmt:message key="welcome.msg"/></h2>
-            <p>Some info about my cafe...</p>
+            <p><fmt:message key="cafe.info"/></p>
         </div>
     </div>
 </div>
-
 
 <div id="wrapper">
     <div id="featured-wrapper">
         <div id="featured" class="extra2 margin-btm container">
             <div class="main-title">
-                <h2>Our advantages</h2>
+                <h2><fmt:message key="advantages.title"/></h2>
             </div>
-
             <div class="ebox1"><span class="fa fa-pagelines"></span>
                 <div class="title">
-                    <h2>Products quality</h2>
-                    <span class="byline">We use only fresh and organic products for our dishes.</span></div>
-                <p>We use only fresh and organic products for our dishes.</p>
+                    <h2><fmt:message key="products.quality.title"/></h2>
+                    <span class="byline"><fmt:message key="products.quality.msg"/></span></div>
             </div>
             <div class="ebox2"><span class="fa fa-anchor"></span>
                 <div class="title">
-                    <h2>Staff friendliness</h2>
+                    <h2><fmt:message key="staff.title"/></h2>
                     <span class="byline"><fmt:message key="staff.msg"/></span></div>
-                <p><fmt:message key="staff.msg"/></p>
             </div>
         </div>
         <div class="extra2 container">

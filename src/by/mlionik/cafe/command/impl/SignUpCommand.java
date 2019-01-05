@@ -21,8 +21,6 @@ public class SignUpCommand implements ActionCommand {
     private static final String PASSWORD_PARAM = "password";
     private static final String CONFIRM_PASSWORD_PARAM = "confirm-password";
     private static final String EMAIL_PARAM = "email";
-    private static final String FIRST_NAME_PARAM = "first-name";
-    private static final String LAST_NAME_PARAM = "last-name";
     private static final String ERROR_PAGE_PATH = "path.page.error";
     private static final String ERROR_ATTR = "errorMsg";
     private static final String LOGIN_USED_ATTR = "loginUsed";
@@ -36,21 +34,21 @@ public class SignUpCommand implements ActionCommand {
         requestContent.setSessionAttribute(LOGIN_USED_ATTR, null);
         requestContent.setSessionAttribute(NOT_EQUALS_PASSWORD_ATTR, null);
         try {
-            if( userService.findByLogin(requestContent.getParameter(LOGIN_PARAM)) == null) {
+            if (userService.findByLogin(requestContent.getParameter(LOGIN_PARAM)) == null) {
                 if (requestContent.getParameter(PASSWORD_PARAM).equals(requestContent.getParameter(CONFIRM_PASSWORD_PARAM))) {
                     User user = userService.create(convertToUser(requestContent));
                     requestContent.setSessionAttribute(USER_ATTR, user);
                     page = ConfigurationManager.getProperty(INDEX_PAGE_PATH);
-                } else{
-                    requestContent.setSessionAttribute(NOT_EQUALS_PASSWORD_ATTR, "notEqualsPassword");
+                } else {
+                    requestContent.setAttribute(NOT_EQUALS_PASSWORD_ATTR, "wrong");
                     page = ConfigurationManager.getProperty(REGISTRATION_PAGE_PATH);
                 }
-            } else{
-                requestContent.setSessionAttribute(LOGIN_USED_ATTR, "loginUsed");
+            } else {
+                requestContent.setAttribute(LOGIN_USED_ATTR, "wrong");
                 page = ConfigurationManager.getProperty(REGISTRATION_PAGE_PATH);
             }
         } catch (ServiceException | NoSuchRequestParameterException e) {
-            logger.log(Level.ERROR,  e);
+            logger.log(Level.ERROR, e);
             requestContent.setAttribute(ERROR_ATTR, e.getMessage());
             page = ConfigurationManager.getProperty(ERROR_PAGE_PATH);
         }
@@ -62,8 +60,6 @@ public class SignUpCommand implements ActionCommand {
         user.setLogin(requestContent.getParameter(LOGIN_PARAM));
         user.setPassword(requestContent.getParameter(PASSWORD_PARAM));
         user.setEmail(requestContent.getParameter(EMAIL_PARAM));
-        user.setFirstName(requestContent.getParameter(FIRST_NAME_PARAM));
-        user.setLastName(requestContent.getParameter(LAST_NAME_PARAM));
         return user;
     }
 }

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface DishServiceAction {
     List<Dish> findAll() throws ServiceException;
+    Dish findById(int id) throws ServiceException;
 }

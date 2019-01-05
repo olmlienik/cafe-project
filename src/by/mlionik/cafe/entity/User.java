@@ -1,8 +1,6 @@
 package by.mlionik.cafe.entity;
 
 import by.mlionik.cafe.entity.type.RoleType;
-import java.math.BigDecimal;
-import java.util.List;
 
 public class User extends Entity {
     private int id;
@@ -10,22 +8,13 @@ public class User extends Entity {
     private String login;
     private String password;
     private String email;
-    private String firstName;
-    private String lastName;
     private int loyaltyPoints;
-    private BigDecimal balance;
+    private double balance;
     private RoleType role;
     private boolean isDeleted;
 
-    private List<String> invalidUserInfo;
-
-    public List<String> getInvalidUserInfo() {
-        return invalidUserInfo;
-    }
-
-    public void setInvalidUserInfo(List<String> invalidUserInfo) {
-        this.invalidUserInfo = invalidUserInfo;
-    }
+//    private List<Dish> basket = new ArrayList<>();
+//    private List<String> invalidUserInfo;
 
     public int getId() {
         return id;
@@ -59,22 +48,6 @@ public class User extends Entity {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -91,11 +64,11 @@ public class User extends Entity {
         this.loyaltyPoints = loyaltyPoints;
     }
 
-    public BigDecimal getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
@@ -123,13 +96,10 @@ public class User extends Entity {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
                 ", loyaltyPoints=" + loyaltyPoints +
                 ", balance=" + balance +
                 ", role=" + role +
                 ", isDeleted=" + isDeleted +
-                ", invalidUserInfo=" + invalidUserInfo +
                 '}';
     }
 }

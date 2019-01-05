@@ -31,4 +31,26 @@ public class DishService implements DishServiceAction {
         }
     }
 
+    @Override
+    public Dish findById(int id) throws ServiceException {
+        DishDao dishDAO = new DishDao();
+        TransactionManager manager = new TransactionManager();
+        manager.beginTransaction(dishDAO);
+        try {
+           return dishDAO.findById(id);
+        } catch (DaoException e) {
+            throw new ServiceException(MessageManager.getProperty(FIND_DISH_ERROR_MSG), e);
+        }
+    }
+
+//    public static void main(String[] args) {
+//        DishService service = new DishService();
+//        try {
+//            Dish dish = service.findById(1);
+//            System.out.println(dish);
+//        } catch (ServiceException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 }

@@ -16,30 +16,40 @@
 <body>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="localization.locale"/>
-<c:set var="lastPage" value="/controller?command=find_all_dishes" scope="session" />
+<c:set var="lastPage" value="/controller?command=find_all_dishes" scope="session"/>
 
 <c:import url="header.jsp"/>
 
 <div class="tab-content">
+    <h2>Menu</h2>
     <div class="container">
         <div class="tab-pane fade in active">
-            <c:forEach var="dish" items="${requestScope.dish}">
+
+            <c:forEach var="curDish" items="${requestScope.dish}">
                 <div class="media">
                     <div class="media-left">
-                        <img src="${dish.picture}" class="media-object" style="width:300px">
+                        <img src="${curDish.picture}" class="media-object" style="width:300px">
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading">${dish.name}</h4>
-                            <%--<p>${dish.descr}</p>--%>
-                        <p><strong>Price</strong>${dish.cost}$ </p>
+                        <h4 class="media-heading">${curDish.name}</h4>
+                        <p><strong><fmt:message key="price"/></strong>${curDish.cost}$ </p>
                     </div>
                 </div>
-                <button type="submit" name="foodElem" value="meal|${meal.id}" class="btn btn-default">Add to order</button>
+                <c:if test="${sessionScope.role =='SIGNED_USER'}">
+                <h3> <a href="/controller?command=add_to_basket&currentDishId=${curDish.id}"><fmt:message key="add.to.basket"/></a> </h3>
+                </c:if>
                 <hr>
             </c:forEach>
         </div>
     </div>
 </div>
+
+<h1>Dishes in the basket : </h1>
+
+<c:set var="basket" value="${sessionScope.basket.dishes}"/>
+<c:forEach var="dish" items="${basket}">
+    <h2> ${dish.name}</h2>
+</c:forEach>
 
 <c:import url="footer.jsp"/>
 </body>

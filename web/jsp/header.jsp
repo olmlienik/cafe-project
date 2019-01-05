@@ -21,39 +21,34 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/index.jsp"><fmt:message key="cafe"/></a>
+                <a class="navbar-brand" href="../index.jsp"><fmt:message key="cafe"/></a>
             </div>
             <ul class="nav navbar-nav navbar-left">
+                <li><a href="/controller?command=find_all_dishes"><fmt:message key="menu.btn"/></a></li>
                 <c:choose>
                     <c:when test="${sessionScope.role == 'GUEST'}">
-
-                        <li><a href="/controller?command=find_all_dishes"><fmt:message key="menu.btn"/></a></li>
-
-
                         <li><a href="../jsp/loginForm.jsp"><fmt:message key="login.btn"/></a></li>
-
                         <li><a href="../jsp/registrationForm.jsp"><fmt:message key="sign.up"/></a></li>
-
                     </c:when>
                     <c:otherwise>
                         <c:choose>
                             <c:when test="${sessionScope.role =='SIGNED_USER'}">
-
-                                <li><a href="../jsp/profileUser.jsp">My profile</a></li>
-
+                                <li><a href="../jsp/basket.jsp"><fmt:message key="basket.btn"/></a> </li>
+                                <li><a href="../jsp/profileUser.jsp"><fmt:message key="my.profile.btn"/></a></li>
+                                <li><a href="../jsp/balance.jsp"><fmt:message key="balance.btn"/></a></li>
                             </c:when>
                             <c:when test="${sessionScope.role =='ADMIN'}">
-                                <li><a href="../jsp/profileAdmin.jsp">Admin profile</a></li>
+                                <li><a href="../jsp/profileAdmin.jsp"><fmt:message key="admin.profile.btn"/></a></li>
                             </c:when>
                         </c:choose>
-                        <li><a href="/controller?command=logout">Log out</a></li>
+                        <li><a href="/controller?command=logout"><fmt:message key="logout"/></a></li>
                     </c:otherwise>
                 </c:choose>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <form action="controller" method="get">
+                    <form action="/controller" method="get">
                         <input type="hidden" name="command" value="change_language">
                         <button type="submit" name="language"
                                 value="en_US" class="btn btn-default navbar-btn">EN

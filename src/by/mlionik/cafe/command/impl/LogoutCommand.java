@@ -12,7 +12,7 @@ public class LogoutCommand implements ActionCommand {
 
     @Override
     public String execute(SessionRequestContent requestContent) {
-        requestContent.removeSessionAttribute(USER_ATTR);
+        requestContent.setSessionAttribute(USER_ATTR, null);
         requestContent.setSessionAttribute(ROLE_ATTR, RoleType.GUEST);
         return ConfigurationManager.getProperty(INDEX_PAGE_PATH);
     }

@@ -16,7 +16,7 @@
 </head>
 
 <body>
-<c:set var="lastPage" value="../jsp/registrationForm.jsp" scope="session" />
+<c:set var="lastPage" value="/jsp/registrationForm.jsp" scope="session"/>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="localization.locale"/>
 
@@ -24,50 +24,45 @@
 
 <div class="login-page">
     <div class="form">
-        <form  method="post" action="/controller">
+        <form method="post" action="/controller">
             <input type="hidden" name="command" value="sign_up">
             <div class="field required">
                 <input type="text" class="login" name="login"
-                       placeholder="<fmt:message key="username"/>"
-                       pattern="^([a-zA-Z]+)[a-zA-Z\d_]{4,45}$"
+                       placeholder="<fmt:message key="login"/>"
+                       pattern="^([a-zA-Z]+)[a-zA-Z\d_]{4,25}$"
+                       maxlength="25"
                        title="<fmt:message key="login.requirements"/>"
                        required/>
             </div>
             <div class="field required">
                 <input type="password" id="password" class="password" name="password"
                        placeholder="<fmt:message key="password"/>"
-                       pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,45}$"
+                       pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$"
+                       maxlength="25"
                        title="<fmt:message key="password.requirements"/>"
                        required/>
             </div>
             <div class="field required">
                 <input type="password" id="confirm-password" class="confirm-password" name="confirm-password"
                        placeholder="<fmt:message key="confirm.password"/>"
+                       pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$"
+                       maxlength="25"
                        required/>
             </div>
 
             <div class="field required email-container">
                 <input type="email" class="email" name="email"
                        placeholder="<fmt:message key="email"/>"
-                       pattern="[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+{,45}"
+                       pattern="[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+{,25}"
+                       maxlength="25"
                        title="<fmt:message key="email.requirements"/>"
                        required/>
             </div>
-
-            <div class="field optional">
-                <input type="text" class="first-name" name="first-name"
-                       placeholder="<fmt:message key="first.name"/>">
-            </div>
-
-            <div class="field optional">
-                <input type="text" class="last-name" name="last-name"
-                       placeholder="<fmt:message key="last.name"/>">
-            </div>
             <div class="form-group">
-                <c:if test = "${not empty notEqualsPassword}">
+                <c:if test="${not empty requestScope.notEqualsPassword}">
                     <p class="text-danger"><fmt:message key="not.equals.password.msg"/></p>
                 </c:if>
-                <c:if test = "${not empty loginUsed}">
+                <c:if test="${not empty requestScope.loginUsed}">
                     <p class="text-danger"><fmt:message key="login.used.msg"/></p>
                 </c:if>
             </div>

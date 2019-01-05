@@ -8,9 +8,9 @@ public class UserValidator {
     private static final String LOGIN_PATTERN = "^([a-zA-Z]+)[a-zA-Z\\d_]{4,}$";
     private static final String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$";
     private static final String EMAIL_PATTERN = "[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]+";
-    private static final int MAX_LOGIN_LENGTH = 45;
-    private static final int MAX_PASSWORD_LENGTH = 100;
-    private static final int MAX_EMAIL_LENGTH = 100;
+    private static final int MAX_LOGIN_LENGTH = 25;
+    private static final int MAX_PASSWORD_LENGTH = 25;
+    private static final int MAX_EMAIL_LENGTH = 25;
 
     private List<String> invalidUserInfo = new ArrayList<>();
 

@@ -1,5 +1,6 @@
 package by.mlionik.cafe.entity.type;
 
 public enum PaymentType {
-    CASH, CARD
+    WHEN_RECEIVING,
+    FROM_ACCOUNT
 }

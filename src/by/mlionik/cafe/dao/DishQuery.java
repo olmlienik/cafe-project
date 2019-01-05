@@ -7,10 +7,10 @@ public class DishQuery {
 
     public static final String SQL_SELECT_DISH_BY_ID = "SELECT \n" +
             "    `dish`.`id_dish`,\n" +
-            "    `dish`.`name`\n" +
+            "    `dish`.`name`,\n" +
             "    `dish`.`cost`,\n" +
             "    `dish`.`picture`,\n" +
-            "    `dish`.`category`,\n" +
+            "    `dish`.`category`\n" +
             "FROM\n" +
             "    `cafe`.`dish`\n" +
             "WHERE\n" +

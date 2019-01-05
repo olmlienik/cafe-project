@@ -9,11 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(dispatcherTypes = {
-        DispatcherType.REQUEST, //todo не нужны они все, посмотреть, какие нужны
-        DispatcherType.FORWARD,
-        DispatcherType.INCLUDE},
-        urlPatterns = {"/controller", "/jsp/*"}, servletNames = {"Controller"})
+@WebFilter(
+        dispatcherTypes = {
+        DispatcherType.FORWARD},
+        urlPatterns = {"/jsp/*"})
 public class SessionFilter implements Filter{
     private static final String SESSION_ROLE = "role";
     private static final String SESSION_LAST_PAGE = "lastPage";

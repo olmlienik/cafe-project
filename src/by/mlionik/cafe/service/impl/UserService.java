@@ -28,8 +28,6 @@ public class UserService implements UserServiceAction {
             User currentUser = new User();
             if (userValidator.isValid(user)) {
                 currentUser = userDAO.create(user);
-            } else {
-                currentUser.setInvalidUserInfo(userValidator.getInvalidUserInfo());
             }
             manager.commit();
             return currentUser;
@@ -50,10 +48,8 @@ public class UserService implements UserServiceAction {
             User user = Optional.ofNullable(userDAO.findById(id))
                     .orElseThrow(() -> new ServiceException(MessageManager.getProperty(FIND_USER_ERROR_MSG)));
             //todo add reviews to list
-            manager.commit();
             return user;
         } catch (DaoException e) {
-            manager.rollBack();
             throw new ServiceException(MessageManager.getProperty(FIND_USER_ERROR_MSG), e);
         } finally {
             manager.endTransaction();
@@ -69,11 +65,57 @@ public class UserService implements UserServiceAction {
             User currentUser = new User();
             if (userValidator.isValid(user)) {
                 currentUser = userDAO.update(user);
-            } else {
-                currentUser.setInvalidUserInfo(userValidator.getInvalidUserInfo());
             }
             manager.commit();
             return currentUser;
+        } catch (DaoException e) {
+            manager.rollBack();
+            throw new ServiceException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+        } finally {
+            manager.endTransaction();
+        }
+    }
+
+    public User updateBalance(User user) throws ServiceException {
+        UserDao userDAO = new UserDao();
+        TransactionManager manager = new TransactionManager();
+        manager.beginTransaction(userDAO);
+        try {
+            User currentUser = userDAO.updateBalance(user);
+            manager.commit();
+            return currentUser;
+        } catch (DaoException e) {
+            manager.rollBack();
+            throw new ServiceException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+        } finally {
+            manager.endTransaction();
+        }
+    }
+
+    public User updateLogin(int userId, String newLogin) throws ServiceException {
+        UserDao userDAO = new UserDao();
+        TransactionManager manager = new TransactionManager();
+        manager.beginTransaction(userDAO);
+        try {
+            User previousUser = userDAO.updateLogin(userId, newLogin);
+            manager.commit();
+            return previousUser;
+        } catch (DaoException e) {
+            manager.rollBack();
+            throw new ServiceException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+        } finally {
+            manager.endTransaction();
+        }
+    }
+
+    public User updatePassword(int userId, String newPassword) throws ServiceException {
+        UserDao userDAO = new UserDao();
+        TransactionManager manager = new TransactionManager();
+        manager.beginTransaction(userDAO);
+        try {
+            User previousUser = userDAO.updatePassword(userId, newPassword);
+            manager.commit();
+            return previousUser;
         } catch (DaoException e) {
             manager.rollBack();
             throw new ServiceException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
@@ -106,10 +148,8 @@ public class UserService implements UserServiceAction {
         manager.beginTransaction(userDAO);
         try {
             User user = userDAO.findByLoginAndPassword(login, password);
-            manager.commit();
             return user;
         } catch (DaoException e) {
-            manager.rollBack();
             throw new ServiceException(MessageManager.getProperty(FIND_USER_ERROR_MSG), e);
         } finally {
             manager.endTransaction();
@@ -123,14 +163,24 @@ public class UserService implements UserServiceAction {
         manager.beginTransaction(userDAO);
         try {
             User user = userDAO.findByLogin(login);
-            manager.commit();
             return user;
         } catch (DaoException e) {
-            manager.rollBack();
             throw new ServiceException(MessageManager.getProperty(FIND_USER_ERROR_MSG), e);
         } finally {
             manager.endTransaction();
         }
     }
 
+
+//    public static void main(String[] args) {
+//        User user = new User();
+//        user.setId(17);
+//        user.setBalance(15);
+//        UserService service = new UserService();
+//        try {
+//            service.updateBalance(user);
+//        } catch (ServiceException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class Dish extends Entity{
     private int id;
     private String name;
-    private BigDecimal cost;
+    private double cost;
     private String picture;
     private DishType category;
     private boolean isDeleted;
@@ -16,7 +16,7 @@ public class Dish extends Entity{
 
     }
 
-    public Dish(int id, String name, BigDecimal cost, String picture, DishType category) {
+    public Dish(int id, String name, double cost, String picture, DishType category) {
         this.id = id;
         this.name = name;
         this.cost = cost;
@@ -40,11 +40,11 @@ public class Dish extends Entity{
         this.name = name;
     }
 
-    public BigDecimal getCost() {
+    public double getCost() {
         return cost;
     }
 
-    public void setCost(BigDecimal cost) {
+    public void setCost(double cost) {
         this.cost = cost;
     }
 

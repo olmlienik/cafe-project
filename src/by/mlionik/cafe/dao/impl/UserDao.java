@@ -5,7 +5,6 @@ import by.mlionik.cafe.dao.DaoException;
 import by.mlionik.cafe.dao.UserDaoAction;
 import by.mlionik.cafe.entity.User;
 import by.mlionik.cafe.entity.type.RoleType;
-import by.mlionik.cafe.pool.ProxyConnection;
 import by.mlionik.cafe.manager.MessageManager;
 import org.apache.commons.codec.digest.DigestUtils;
 import java.sql.*;
@@ -18,8 +17,6 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
     private static final String ROLE = "role";
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
-    private static final String FIRST_NAME = "first_name";
-    private static final String LAST_NAME = "last_name";
     private static final String EMAIL = "email";
     private static final String LOYALTY_POINTS = "loyalty_points";
     private static final String BALANCE = "balance";
@@ -39,8 +36,6 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
             preparedStatement.setString(1, user.getLogin());
             preparedStatement.setString(2, DigestUtils.sha256Hex(user.getPassword()));
             preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setString(4, user.getFirstName());
-            preparedStatement.setString(5, user.getLastName());
             preparedStatement.executeUpdate();
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -71,11 +66,44 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
     public User update(User user) throws DaoException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER)) {
             preparedStatement.setString(1, user.getEmail());
-            preparedStatement.setString(2, user.getFirstName());
-            preparedStatement.setString(3, user.getLastName());
             preparedStatement.setInt(4, user.getId());
             preparedStatement.executeUpdate();
             return user;
+        } catch (SQLException e) {
+            throw new DaoException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+        }
+    }
+
+    public User updateBalance(User user) throws DaoException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_BALANCE)) {
+            preparedStatement.setDouble(1, user.getBalance());
+            preparedStatement.setInt(2, user.getId());
+            preparedStatement.executeUpdate();
+            return user;
+        } catch (SQLException e) {
+            throw new DaoException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+        }
+    }
+
+    public User updateLogin(int userId, String newLogin) throws DaoException {
+        User previousUser = findById(userId);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_LOGIN)) {
+            preparedStatement.setString(1, newLogin);
+            preparedStatement.setInt(2, userId);
+            preparedStatement.executeUpdate();
+            return previousUser;
+        } catch (SQLException e) {
+            throw new DaoException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+        }
+    }
+
+    public User updatePassword(int userId, String newPassword) throws DaoException {
+        User previousUser = findById(userId);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_PASSWORD)) {
+            preparedStatement.setString(1, DigestUtils.sha256Hex(newPassword));
+            preparedStatement.setInt(2, userId);
+            preparedStatement.executeUpdate();
+            return previousUser;
         } catch (SQLException e) {
             throw new DaoException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
         }
@@ -130,10 +158,8 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
         user.setLogin(resultSet.getString(LOGIN));
         user.setPassword(resultSet.getString(PASSWORD));
         user.setEmail(resultSet.getString(EMAIL));
-        user.setFirstName(resultSet.getString(FIRST_NAME));
-        user.setLastName(resultSet.getString(LAST_NAME));
         user.setLoyaltyPoints(resultSet.getInt(LOYALTY_POINTS));
-        user.setBalance(resultSet.getBigDecimal(BALANCE));
+        user.setBalance(resultSet.getDouble(BALANCE));
         user.setIsBanned(resultSet.getBoolean(IS_BANNED));
         user.setDeleted(resultSet.getBoolean(IS_DELETED));
         return user;
