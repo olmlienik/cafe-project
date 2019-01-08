@@ -13,11 +13,17 @@ public class Dish extends Entity{
     private boolean isDeleted;
 
     public Dish(){
-
     }
 
     public Dish(int id, String name, double cost, String picture, DishType category) {
         this.id = id;
+        this.name = name;
+        this.cost = cost;
+        this.picture = picture;
+        this.category = category;
+    }
+
+    public Dish(String name, double cost, String picture, DishType category) {
         this.name = name;
         this.cost = cost;
         this.picture = picture;

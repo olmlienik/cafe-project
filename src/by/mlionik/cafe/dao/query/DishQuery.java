@@ -1,4 +1,4 @@
-package by.mlionik.cafe.dao;
+package by.mlionik.cafe.dao.query;
 
 public class DishQuery {
     public static final String SQL_INSERT_DISH = "INSERT INTO\n" +

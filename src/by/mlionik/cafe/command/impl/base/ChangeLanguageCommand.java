@@ -1,6 +1,7 @@
-package by.mlionik.cafe.command.impl;
+package by.mlionik.cafe.command.impl.base;
 
 import by.mlionik.cafe.command.ActionCommand;
+import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
 import by.mlionik.cafe.exception.NoSuchRequestParameterException;
 import by.mlionik.cafe.manager.ConfigurationManager;
@@ -13,20 +14,22 @@ public class ChangeLanguageCommand implements ActionCommand {
     private static final String LANGUAGE_PARAM = "language";
     private static final String LOCALE_ATTR = "locale";
     private static final String SESSION_LAST_PAGE = "lastPage";
-    private static final String INDEX_PAGE_PATH = "path.page.index";
+    private static final String ERROR_PAGE_PATH = "path.page.error";
 
     @Override
-    public String execute(SessionRequestContent requestContent) {
-        String page = null;
+    public Router execute(SessionRequestContent requestContent) {
+        String page;
         try {
-
             String locale = requestContent.getParameter(LANGUAGE_PARAM);
             requestContent.setSessionAttribute(LOCALE_ATTR, locale);
             page = (String) requestContent.getSessionAttribute(SESSION_LAST_PAGE);
-//            page = ConfigurationManager.getProperty(INDEX_PAGE_PATH);
         } catch (NoSuchRequestParameterException e) {
             logger.log(Level.ERROR, e);
+            page =  ConfigurationManager.getProperty(ERROR_PAGE_PATH);
         }
-        return page;
+        Router router = new Router();
+        router.setRouteType(Router.RouteType.REDIRECT);
+        router.setPagePath(page);
+        return router;
     }
 }

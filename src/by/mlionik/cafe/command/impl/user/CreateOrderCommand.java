@@ -1,9 +1,11 @@
 package by.mlionik.cafe.command.impl.user;
 
 import by.mlionik.cafe.command.ActionCommand;
+import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
 import by.mlionik.cafe.entity.Order;
 import by.mlionik.cafe.entity.User;
+import by.mlionik.cafe.entity.type.OrderState;
 import by.mlionik.cafe.entity.type.PaymentType;
 import by.mlionik.cafe.exception.NoSuchRequestParameterException;
 import by.mlionik.cafe.manager.ConfigurationManager;
@@ -23,21 +25,21 @@ public class CreateOrderCommand implements ActionCommand {
     private static final String PAYMENT_TYPE_PARAM = "paymentType";
     private static final String ERROR_PAGE_PATH = "path.page.error";
     private static final String ERROR_ATTR = "errorMsg";
-    private static final String PARAM_BAD_TIME = "badTime";
-    private static final String PARAM_BAD_PAY_TYPE = "badPayType";
-    private static final String PARAM_NOT_ENOUGH = "notEnough";
-    private static final String PARAM_EMPTY_BASKET = "emptyBasket";
+    private static final String ATTR_BAD_TIME = "badTime";
+    private static final String ATTR_BAD_PAY_TYPE = "badPayType";
+    private static final String ATTR_NOT_ENOUGH = "notEnough";
+    private static final String ATTR_EMPTY_BASKET = "emptyBasket";
     private static final String SESSION_USER = "user";
 
     private OrderService orderService = new OrderService();
     private UserService userService = new UserService();
 
     @Override
-    public String execute(SessionRequestContent requestContent) {
+    public Router execute(SessionRequestContent requestContent) {
         String page;
-        requestContent.setAttribute(PARAM_BAD_PAY_TYPE, null);
-        requestContent.setAttribute(PARAM_BAD_TIME, null);
-        requestContent.setAttribute(PARAM_NOT_ENOUGH, null);
+        requestContent.setAttribute(ATTR_BAD_PAY_TYPE, null);
+        requestContent.setAttribute(ATTR_BAD_TIME, null);
+        requestContent.setAttribute(ATTR_NOT_ENOUGH, null);
 
         try {
             Order order = (Order) requestContent.getSessionAttribute(SESSION_BASKET);
@@ -50,9 +52,7 @@ public class CreateOrderCommand implements ActionCommand {
                         User user = (User) requestContent.getSessionAttribute(SESSION_USER);
                         order.setIdUser(user.getId());
                         if (OrderValidator.checkPaymentPossibility(paymentType, user, order.getPrice())) {
-                            order.setDeliveryTime(gettingTime);
-                            order.setPaymentType(paymentType);
-                            orderService.create(order);
+                            order = orderService.create(user.getId(), gettingTime, paymentType, OrderState.IN_PROCESS, order.getDishes());
                             switch (paymentType) {
                                 case FROM_ACCOUNT:
                                     double currentBalance = user.getBalance() - order.getPrice();
@@ -64,16 +64,16 @@ public class CreateOrderCommand implements ActionCommand {
                             }
                             requestContent.setSessionAttribute(SESSION_BASKET, new Order());
                         } else {
-                            requestContent.setAttribute(PARAM_NOT_ENOUGH, "bad");
+                            requestContent.setAttribute(ATTR_NOT_ENOUGH, "bad");
                         }
                     } else {
-                        requestContent.setAttribute(PARAM_BAD_PAY_TYPE, "bad");
+                        requestContent.setAttribute(ATTR_BAD_PAY_TYPE, "bad");
                     }
                 } else {
-                    requestContent.setAttribute(PARAM_BAD_TIME, "bad");
+                    requestContent.setAttribute(ATTR_BAD_TIME, "bad");
                 }
             } else {
-                requestContent.setAttribute(PARAM_EMPTY_BASKET, "bad");
+                requestContent.setAttribute(ATTR_EMPTY_BASKET, "bad");
             }
             page = (String) requestContent.getSessionAttribute(SESSION_LAST_PAGE);
 
@@ -82,6 +82,9 @@ public class CreateOrderCommand implements ActionCommand {
             requestContent.setAttribute(ERROR_ATTR, e.getMessage());
             page = ConfigurationManager.getProperty(ERROR_PAGE_PATH);
         }
-        return page;
+        Router router = new Router();
+        router.setRouteType(Router.RouteType.FORWARD);
+        router.setPagePath(page);
+        return router;
     }
 }

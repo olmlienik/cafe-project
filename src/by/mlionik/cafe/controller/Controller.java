@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet("/controller")
 public class Controller extends HttpServlet {
@@ -30,14 +31,28 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String page;
+//        String page;
+//        ActionCommand command = ActionFactory.defineCommand(request);
+//
+//        SessionRequestContent requestContent = new SessionRequestContent(request);
+//        page = command.execute(requestContent);
+//        requestContent.insertValues(request);
+//        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+//        dispatcher.forward(request, response);
         ActionCommand command = ActionFactory.defineCommand(request);
-
         SessionRequestContent requestContent = new SessionRequestContent(request);
-        page = command.execute(requestContent);
+        Router router = command.execute(requestContent);
         requestContent.insertValues(request);
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-        dispatcher.forward(request, response);
+        String pagePath=router.getPagePath();
+        if (router.getRouteType() == Router.RouteType.FORWARD)
+        {
+            RequestDispatcher dispatcher = request.getRequestDispatcher(pagePath);
+            dispatcher.forward(request, response);
+        }
+        else
+        {
+            response.sendRedirect(pagePath);
+        }
     }
 
 }

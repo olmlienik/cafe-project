@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="cafe" uri="/WEB-INF/custom.tld"%>
 <html>
 <head>
     <link href="/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -54,41 +55,6 @@
                                 <p class="text-danger"><fmt:message key="login.used.msg"/></p>
                             </c:if>
                         </form>
-
-                        <%--<form>--%>
-                        <%--<div class="form-group row">--%>
-                            <%--<label for="name" class="col-4 col-form-label">First Name</label>--%>
-                            <%--<div class="col-8">--%>
-                                <%--<input id="name" name="name" placeholder="First Name" --%>
-                                       <%--value="${sessionScope.user.firstName}"--%>
-                                       <%--class="form-control here"--%>
-                                       <%--type="text">--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="form-group row">--%>
-                            <%--<label for="last_name" class="col-4 col-form-label">Last Name</label>--%>
-                            <%--<div class="col-8">--%>
-                                <%--<input id="last_name" name="last_name" placeholder="Last Name"--%>
-                                       <%--value="${sessionScope.user.lastName}"--%>
-                                       <%--class="form-control here" type="text">--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                            <%--<div class="form-group row">--%>
-                                <%--<div class="offset-4 col-8">--%>
-                                    <%--<button name="submit" type="submit" class="btn btn-primary">Change name--%>
-                                    <%--</button>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        <%--</form>--%>
-                        <%--<div class="form-group row">--%>
-                            <%--<label for="email" class="col-4 col-form-label">Email*</label>--%>
-                            <%--<div class="col-8">--%>
-                                <%--<input id="email" name="email" placeholder="Email" class="form-control here"--%>
-                                       <%--pattern="[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+{,25}"--%>
-                                       <%--maxlength="25"--%>
-                                       <%--required="required" type="text">--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
                         <form  method="post" action="/controller">
                             <input type="hidden" name="command" value="change_password">
                         <div class="form-group row">
@@ -128,6 +94,6 @@
 </div>
 
 
-<c:import url="footer.jsp"/>
+<cafe:customFooter locale="${sessionScope.locale}" />
 </body>
 </html>

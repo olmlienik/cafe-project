@@ -1,6 +1,6 @@
 package by.mlionik.cafe.command;
 
-import by.mlionik.cafe.command.impl.EmptyCommand;
+import by.mlionik.cafe.command.impl.base.EmptyCommand;
 
 import javax.servlet.http.HttpServletRequest;
 

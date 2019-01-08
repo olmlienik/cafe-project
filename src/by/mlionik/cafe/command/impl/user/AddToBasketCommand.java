@@ -1,6 +1,7 @@
 package by.mlionik.cafe.command.impl.user;
 
 import by.mlionik.cafe.command.ActionCommand;
+import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
 import by.mlionik.cafe.entity.Dish;
 import by.mlionik.cafe.entity.Order;
@@ -20,10 +21,11 @@ public class AddToBasketCommand implements ActionCommand {
     private static final String ERROR_PAGE_PATH = "path.page.error";
     private static final String ERROR_ATTR = "errorMsg";
 
+    private DishService dishService = new DishService();
+
     @Override
-    public String execute(SessionRequestContent requestContent) {
+    public Router execute(SessionRequestContent requestContent) {
         String page;
-        DishService dishService = new DishService();
         try {
             Order basket = (Order) requestContent.getSessionAttribute(SESSION_BASKET);
             int currentDishId = Integer.valueOf(requestContent.getParameter(CURRENT_DISH_PARAM));
@@ -37,6 +39,9 @@ public class AddToBasketCommand implements ActionCommand {
             requestContent.setAttribute(ERROR_ATTR, e.getMessage());
             page = ConfigurationManager.getProperty(ERROR_PAGE_PATH);
         }
-        return page;
+        Router router = new Router();
+        router.setRouteType(Router.RouteType.REDIRECT);
+        router.setPagePath(page);
+        return router;
     }
 }

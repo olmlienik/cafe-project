@@ -9,6 +9,7 @@ import by.mlionik.cafe.service.ServiceException;
 import by.mlionik.cafe.service.UserServiceAction;
 import by.mlionik.cafe.util.UserValidator;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserService implements UserServiceAction {
@@ -17,8 +18,6 @@ public class UserService implements UserServiceAction {
     private static final String DELETE_USER_ERROR_MSG = "msg.delete.user.error";
     private static final String UPDATE_USER_ERROR_MSG = "msg.update.user.error";
 
-    private UserValidator userValidator = new UserValidator();
-
     @Override
     public User create(User user) throws ServiceException {
         UserDao userDAO = new UserDao();
@@ -26,7 +25,7 @@ public class UserService implements UserServiceAction {
         manager.beginTransaction(userDAO);
         try {
             User currentUser = new User();
-            if (userValidator.isValid(user)) {
+            if (UserValidator.isValidUser(user)) {
                 currentUser = userDAO.create(user);
             }
             manager.commit();
@@ -63,7 +62,7 @@ public class UserService implements UserServiceAction {
         manager.beginTransaction(userDAO);
         try {
             User currentUser = new User();
-            if (userValidator.isValid(user)) {
+            if (UserValidator.isValidUser(user)) {
                 currentUser = userDAO.update(user);
             }
             manager.commit();
@@ -76,6 +75,7 @@ public class UserService implements UserServiceAction {
         }
     }
 
+    @Override
     public User updateBalance(User user) throws ServiceException {
         UserDao userDAO = new UserDao();
         TransactionManager manager = new TransactionManager();
@@ -92,6 +92,7 @@ public class UserService implements UserServiceAction {
         }
     }
 
+    @Override
     public User updateLogin(int userId, String newLogin) throws ServiceException {
         UserDao userDAO = new UserDao();
         TransactionManager manager = new TransactionManager();
@@ -108,6 +109,7 @@ public class UserService implements UserServiceAction {
         }
     }
 
+    @Override
     public User updatePassword(int userId, String newPassword) throws ServiceException {
         UserDao userDAO = new UserDao();
         TransactionManager manager = new TransactionManager();
@@ -171,16 +173,55 @@ public class UserService implements UserServiceAction {
         }
     }
 
+    @Override
+    public List<User> findActiveUsers() throws ServiceException {
+        UserDao userDao = new UserDao();
+        TransactionManager manager = new TransactionManager();
+        manager.beginTransaction(userDao);
+        try {
+            List<User> activeUsers = userDao.findActiveUsers();
+            manager.commit();
+            return activeUsers;
+        } catch (DaoException e) {
+            manager.rollBack();
+            throw new ServiceException("Exception while finding active users", e);
+        } finally {
+            manager.endTransaction();
+        }
+    }
 
-//    public static void main(String[] args) {
-//        User user = new User();
-//        user.setId(17);
-//        user.setBalance(15);
-//        UserService service = new UserService();
-//        try {
-//            service.updateBalance(user);
-//        } catch (ServiceException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    @Override
+    public List<User> findBannedUsers() throws ServiceException {
+        UserDao userDao = new UserDao();
+        TransactionManager manager = new TransactionManager();
+        manager.beginTransaction(userDao);
+        try {
+            List<User> activeUsers = userDao.findBannedUsers();
+            manager.commit();
+            return activeUsers;
+        } catch (DaoException e) {
+            manager.rollBack();
+            throw new ServiceException("Exception while finding banned users", e);
+        } finally {
+            manager.endTransaction();
+        }
+    }
+
+    @Override
+    public boolean updateUserBanState(int userId, boolean banState) throws ServiceException {
+        UserDao userDao = new UserDao();
+        TransactionManager manager = new TransactionManager();
+        manager.beginTransaction(userDao);
+        try {
+            boolean updated = userDao.updateBan(userId, banState);
+            manager.commit();
+            return updated;
+        } catch (DaoException e) {
+            manager.rollBack();
+            throw new ServiceException("Exception while trying to change ban state of user " + userId, e);
+        } finally {
+            manager.endTransaction();
+        }
+    }
+
 }

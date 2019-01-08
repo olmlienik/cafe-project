@@ -1,10 +1,8 @@
 package by.mlionik.cafe.entity;
 
-import by.mlionik.cafe.entity.type.OrderStatus;
+import by.mlionik.cafe.entity.type.OrderState;
 import by.mlionik.cafe.entity.type.PaymentType;
 
-import java.sql.Time;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +12,27 @@ public class Order extends Entity{
     private String deliveryTime;
     private PaymentType paymentType;
     private double price;
-    private OrderStatus status;
+    private OrderState state;
     private List<Dish> dishes = new ArrayList<>();
 
     public Order() {
+    }
+
+    public Order(int idUser, String deliveryTime, PaymentType paymentType, double price, OrderState state) {
+        this.idUser = idUser;
+        this.deliveryTime = deliveryTime;
+        this.paymentType = paymentType;
+        this.price = price;
+        this.state = state;
+    }
+
+    public Order(int idUser, String deliveryTime, PaymentType paymentType, double price, OrderState state, List<Dish> dishes) {
+        this.idUser = idUser;
+        this.deliveryTime = deliveryTime;
+        this.paymentType = paymentType;
+        this.price = price;
+        this.state = state;
+        this.dishes = dishes;
     }
 
     public int getId() {
@@ -50,6 +65,14 @@ public class Order extends Entity{
 
     public void setPaymentType(PaymentType paymentType) {
         this.paymentType = paymentType;
+    }
+
+    public OrderState getState() {
+        return state;
+    }
+
+    public void setState(OrderState state) {
+        this.state = state;
     }
 
     public double getPrice() {

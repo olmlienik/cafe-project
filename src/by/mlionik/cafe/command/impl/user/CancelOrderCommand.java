@@ -1,6 +1,7 @@
 package by.mlionik.cafe.command.impl.user;
 
 import by.mlionik.cafe.command.ActionCommand;
+import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
 import by.mlionik.cafe.entity.Order;
 import by.mlionik.cafe.exception.NoSuchRequestParameterException;
@@ -17,7 +18,7 @@ public class CancelOrderCommand implements ActionCommand {
     private static final String ERROR_ATTR = "errorMsg";
 
     @Override
-    public String execute(SessionRequestContent requestContent) {
+    public Router execute(SessionRequestContent requestContent) {
         String page;
         try {
             requestContent.setSessionAttribute(SESSION_BASKET, new Order());
@@ -27,6 +28,9 @@ public class CancelOrderCommand implements ActionCommand {
             requestContent.setAttribute(ERROR_ATTR, e.getMessage());
             page = ConfigurationManager.getProperty(ERROR_PAGE_PATH);
         }
-        return page;
+        Router router = new Router();
+        router.setRouteType(Router.RouteType.FORWARD);
+        router.setPagePath(page);
+        return router;
     }
 }

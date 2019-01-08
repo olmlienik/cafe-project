@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="cafe" uri="/WEB-INF/custom.tld"%>
 <html>
 <head>
     <title>My basket</title>
@@ -64,20 +65,19 @@
                     <input type="radio" name="paymentType" value="when_receiving"><fmt:message key="pay.when.receiving"/>
                 </label><br>
                 <button type="submit" value="create_order"><fmt:message key="create.order.btn"/></button>
+                <c:if test="${not empty requestScope.emptyBasket}">
+                    <p class="text-danger"><fmt:message key="empty.basket.msg"/></p>
+                </c:if>
+                <c:if test="${not empty requestScope.badPayType}">
+                    <p class="text-danger"><fmt:message key="bad.pay.type.msg"/></p>
+                </c:if>
+                <c:if test="${not empty requestScope.badTime}">
+                    <p class="text-danger"><fmt:message key="bad.time.msg"/></p>
+                </c:if>
+                <c:if test="${not empty requestScope.notEnough}">
+                    <p class="text-danger"><fmt:message key="not.enough.msg"/></p>
+                </c:if>
             </form>
-            <c:if test="${not empty requestScope.emptyBasket}">
-                <p class="text-danger"><fmt:message key="empty.basket.msg"/></p>
-            </c:if>
-            <c:if test="${not empty requestScope.badPayType}">
-                <p class="text-danger"><fmt:message key="bad.pay.type.msg"/></p>
-            </c:if>
-            <c:if test="${not empty requestScope.badTime}">
-                <p class="text-danger"><fmt:message key="bad.time.msg"/></p>
-            </c:if>
-            <c:if test="${not empty requestScope.notEnough}">
-                <p class="text-danger"><fmt:message key="not.enough.msg"/></p>
-            </c:if>
-
             <br>
             <form class="cancel-order" method="post" action="/controller">
                 <input type="hidden" name="command" value="cancel_order">
@@ -86,6 +86,6 @@
         </div>
     </div>
 </div>
-<c:import url="footer.jsp"/>
+<cafe:customFooter locale="${sessionScope.locale}" />
 </body>
 </html>

@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8;" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="cafe" uri="/WEB-INF/custom.tld"%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -72,7 +73,7 @@
     </div>
 </div>
 
-<c:import url="footer.jsp"/>
+<cafe:customFooter locale="${sessionScope.locale}" />
 
 </body>
 </html>

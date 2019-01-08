@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="cafe" uri="/WEB-INF/custom.tld"%>
 <html>
 <head>
     <link href="/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -21,7 +22,6 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="localization.locale"/>
 <c:set var="lastPage" value="/jsp/balance.jsp" scope="session"/>
-
 
 <div class="container">
     <div class="row">
@@ -44,7 +44,7 @@
                                     <label for="replenishment" class="col-4 col-form-label">Sum to add</label>
                                     <div class="col-8">
                                         <input id="replenishment" name="replenishment" placeholder="Sum to add"
-                                               pattern="^[0-9]+?(.)[0-9]*{,25}$"
+                                               pattern= "([\d]{1,3}((\.)?([\d]){1,2})?)"
                                                maxlength="25"
                                                class="form-control here" required="required" type="text">
                                     </div>
@@ -65,8 +65,6 @@
     </div>
 </div>
 
-<c:import url="footer.jsp"/>
-<script src="/js/jquery-3.2.1.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
+<cafe:customFooter locale="${sessionScope.locale}" />
 </body>
 </html>

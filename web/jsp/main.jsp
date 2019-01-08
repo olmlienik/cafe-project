@@ -9,11 +9,14 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="cafe" uri="/WEB-INF/custom.tld"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Cafe</title>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <link href="/css/default.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="/css/fonts.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -74,9 +77,7 @@
         </div>
     </div>
 </div>
-<c:import url="footer.jsp"/>
-<script src="/js/jquery-3.2.1.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
+<cafe:customFooter locale="${sessionScope.locale}" />
 </body>
 </html>
 

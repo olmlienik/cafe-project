@@ -1,4 +1,4 @@
-package by.mlionik.cafe.dao;
+package by.mlionik.cafe.dao.query;
 
 public class UserQuery {
     public static final String SQL_INSERT_USER = "INSERT INTO\n" +
@@ -41,6 +41,10 @@ public class UserQuery {
             "WHERE\n" +
             "    `user`.`id_user` = ?" +
             "     AND `user`.`is_deleted` = 0";
+
+    public static final String SQL_UPDATE_USER_BAN = "UPDATE `cafe`.`user`\n" +
+            "SET `user`.`is_banned` = ?\n" +
+            "WHERE `user`.`id_user` = ? ";
 
     public static final String SQL_UPDATE_USER_PASSWORD = "UPDATE `cafe`.`user` \n" +
             "SET \n" +
@@ -88,5 +92,45 @@ public class UserQuery {
             "    `user`.`login` = ?\n" +
             "        AND `user`.`password` = ?\n" +
             "        AND `user`.`is_deleted` = 0";
+
+    public static final String SQL_SELECT_ALL_USERS = "SELECT\n" +
+            "`user`.`id_user`,\n" +
+            "`user`.`role`,\n" +
+            "`user`.`login`,\n" +
+            "`user`.`password`,\n" +
+            "`user`.`email`,\n" +
+            "`user`.`loyalty_points`,\n" +
+            "`user`.`balance`,\n" +
+            "`user`.`is_banned,`\n" +
+            "`user`.`is_deleted`\n" +
+            "FROM `cafe`.`user`\n" +
+            "WHERE `user`.`is_deleted` = 0";
+
+    public static final String SQL_SELECT_UNBANNED_USERS = "SELECT\n" +
+            "`user`.`id_user`,\n" +
+            "`user`.`role`,\n" +
+            "`user`.`login`,\n" +
+            "`user`.`password`,\n" +
+            "`user`.`email`,\n" +
+            "`user`.`loyalty_points`,\n" +
+            "`user`.`balance`,\n" +
+            "`user`.`is_banned`,\n" +
+            "`user`.`is_deleted`\n" +
+            "FROM `cafe`.`user`\n" +
+            "WHERE `user`.`is_deleted` = 0 AND `user`.`is_banned` = 0";
+
+    public static final String SQL_SELECT_BANNED_USERS = "SELECT\n" +
+            "`user`.`id_user`,\n" +
+            "`user`.`role`,\n" +
+            "`user`.`login`,\n" +
+            "`user`.`password`,\n" +
+            "`user`.`email`,\n" +
+            "`user`.`loyalty_points`,\n" +
+            "`user`.`balance`,\n" +
+            "`user`.`is_banned`,\n" +
+            "`user`.`is_deleted`\n" +
+            "FROM `cafe`.`user`\n" +
+            "WHERE `user`.`is_deleted` = 0 AND `user`.`is_banned` = 1";
+
 
 }

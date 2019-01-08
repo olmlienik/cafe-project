@@ -1,6 +1,7 @@
 package by.mlionik.cafe.command.impl.user;
 
 import by.mlionik.cafe.command.ActionCommand;
+import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
 import by.mlionik.cafe.entity.User;
 import by.mlionik.cafe.exception.NoSuchRequestParameterException;
@@ -22,7 +23,7 @@ public class ReplenishBalanceCommand implements ActionCommand {
     private UserService userService = new UserService();
 
     @Override
-    public String execute(SessionRequestContent requestContent) {
+    public Router execute(SessionRequestContent requestContent) {
         String page;
         try {
             User user = (User) requestContent.getSessionAttribute(SESSION_USER);
@@ -36,6 +37,9 @@ public class ReplenishBalanceCommand implements ActionCommand {
             requestContent.setAttribute(ERROR_ATTR, e.getMessage());
             page = ConfigurationManager.getProperty(ERROR_PAGE_PATH);
         }
-        return page;
+        Router router = new Router();
+        router.setRouteType(Router.RouteType.REDIRECT);
+        router.setPagePath(page);
+        return router;
     }
 }

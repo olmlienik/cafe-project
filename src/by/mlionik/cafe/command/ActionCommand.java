@@ -1,7 +1,8 @@
 package by.mlionik.cafe.command;
 
+import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
 
 public interface ActionCommand {
-    String execute(SessionRequestContent requestContent);
+    Router execute(SessionRequestContent requestContent);
 }

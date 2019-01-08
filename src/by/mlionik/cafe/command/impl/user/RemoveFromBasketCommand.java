@@ -1,6 +1,7 @@
 package by.mlionik.cafe.command.impl.user;
 
 import by.mlionik.cafe.command.ActionCommand;
+import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
 import by.mlionik.cafe.entity.Dish;
 import by.mlionik.cafe.entity.Order;
@@ -19,7 +20,7 @@ public class RemoveFromBasketCommand implements ActionCommand {
     private static final String ERROR_ATTR = "errorMsg";
 
     @Override
-    public String execute(SessionRequestContent requestContent) {
+    public Router execute(SessionRequestContent requestContent) {
         String page;
         try {
             Order basket = (Order) requestContent.getSessionAttribute(SESSION_BASKET);
@@ -33,6 +34,9 @@ public class RemoveFromBasketCommand implements ActionCommand {
             requestContent.setAttribute(ERROR_ATTR, e.getMessage());
             page = ConfigurationManager.getProperty(ERROR_PAGE_PATH);
         }
-        return page;
+        Router router = new Router();
+        router.setRouteType(Router.RouteType.REDIRECT);
+        router.setPagePath(page);
+        return router;
     }
 }

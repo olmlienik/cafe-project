@@ -9,25 +9,25 @@
         <param-value>localization.locale</param-value>
     </context-param>
 
-    <error-page>
-        <error-code>404</error-code>
-        <location>/jsp/error.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>403</error-code>
-        <location>/jsp/error.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>504</error-code>
-        <location>/jsp/error.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>414</error-code>
-        <location>/jsp/error.jsp</location>
-    </error-page>
-    <error-page>
-        <error-code>500</error-code>
-        <location>/jsp/error.jsp</location>
-    </error-page>
+    <!--<error-page>-->
+        <!--<error-code>404</error-code>-->
+        <!--<location>/jsp/error.jsp</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>403</error-code>-->
+        <!--<location>/jsp/error.jsp</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>504</error-code>-->
+        <!--<location>/jsp/error.jsp</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>414</error-code>-->
+        <!--<location>/jsp/error.jsp</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>500</error-code>-->
+        <!--<location>/jsp/error.jsp</location>-->
+    <!--</error-page>-->
 
 </web-app>

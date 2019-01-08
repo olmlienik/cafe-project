@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8;" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="cafe" uri="/WEB-INF/custom.tld"%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -39,6 +40,9 @@
             <c:if test="${not empty requestScope.wrongLoginOrPassword}">
                 <p class="text-danger"><fmt:message key="wrong.login.password"/></p>
             </c:if>
+            <c:if test="${not empty requestScope.isBanned}">
+                <p class="text-danger"><fmt:message key="banned.msg"/></p>
+            </c:if>
             <p class="message"><fmt:message key="not.registered.msg"/><a href="../jsp/registrationForm.jsp"><fmt:message
                     key="create.account.msg"/></a></p>
             <p class="message"><a href="../index.jsp"><fmt:message key="back.to.main"/></a></p>
@@ -46,7 +50,7 @@
     </div>
 </div>
 
-<c:import url="footer.jsp"/>
+<cafe:customFooter locale="${sessionScope.locale}" />
 
 <script src="/js/jquery-3.2.1.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>

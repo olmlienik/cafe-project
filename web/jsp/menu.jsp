@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="cafe" uri="/WEB-INF/custom.tld"%>
 <html>
 <head>
     <title>Menu</title>
@@ -44,13 +45,6 @@
     </div>
 </div>
 
-<h1>Dishes in the basket : </h1>
-
-<c:set var="basket" value="${sessionScope.basket.dishes}"/>
-<c:forEach var="dish" items="${basket}">
-    <h2> ${dish.name}</h2>
-</c:forEach>
-
-<c:import url="footer.jsp"/>
+<cafe:customFooter locale="${sessionScope.locale}" />
 </body>
 </html>

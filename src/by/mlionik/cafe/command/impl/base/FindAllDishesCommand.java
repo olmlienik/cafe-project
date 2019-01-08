@@ -1,6 +1,7 @@
-package by.mlionik.cafe.command.impl;
+package by.mlionik.cafe.command.impl.base;
 
 import by.mlionik.cafe.command.ActionCommand;
+import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
 import by.mlionik.cafe.entity.Dish;
 import by.mlionik.cafe.manager.ConfigurationManager;
@@ -22,7 +23,7 @@ public class FindAllDishesCommand implements ActionCommand {
     private DishService dishService = new DishService();
 
     @Override
-    public String execute(SessionRequestContent requestContent) {
+    public Router execute(SessionRequestContent requestContent) {
         String page;
         try {
             List<Dish> dishList = dishService.findAll();
@@ -33,6 +34,9 @@ public class FindAllDishesCommand implements ActionCommand {
             requestContent.setAttribute(ERROR_ATTR, e.getMessage());
             page = ConfigurationManager.getProperty(ERROR_PAGE_PATH);
         }
-        return page;
+        Router router = new Router();
+        router.setRouteType(Router.RouteType.FORWARD);
+        router.setPagePath(page);
+        return router;
     }
 }

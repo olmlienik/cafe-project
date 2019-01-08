@@ -1,6 +1,7 @@
-package by.mlionik.cafe.command.impl;
+package by.mlionik.cafe.command.impl.base;
 
 import by.mlionik.cafe.command.ActionCommand;
+import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
 
 import by.mlionik.cafe.entity.Order;
@@ -24,26 +25,34 @@ public class LoginCommand implements ActionCommand {
     private static final String ERROR_PAGE_PATH = "path.page.error";
     private static final String ERROR_ATTR = "errorMsg";
     private static final String WRONG_LOGIN_OR_PASSWORD = "wrongLoginOrPassword";
+    private static final String ATTR_BANNED = "isBanned";
     private static final String SESSION_BASKET = "basket";
 
 
     private UserService userService = new UserService();
 
     @Override
-    public String execute(SessionRequestContent requestContent) {
+    public Router execute(SessionRequestContent requestContent) {
         String page;
+        Router router = new Router();
+        router.setRouteType(Router.RouteType.FORWARD);
         requestContent.setSessionAttribute(WRONG_LOGIN_OR_PASSWORD, null);
         try {
             String login = requestContent.getParameter(LOGIN_PARAM);
             String password = requestContent.getParameter(PASSWORD_PARAM);
             User user = userService.findByLoginAndPassword(login, password);
             if (user != null) {
-                requestContent.setSessionAttribute(ROLE_ATTR, user.getRole());
-                requestContent.setSessionAttribute(SESSION_USER, user);
-                Order basket = new Order();
-                basket.setIdUser(user.getId());
-                requestContent.setSessionAttribute(SESSION_BASKET, basket);
-                page = ConfigurationManager.getProperty(INDEX_PAGE_PATH);
+                if (!user.isBanned()) {
+                    requestContent.setSessionAttribute(ROLE_ATTR, user.getRole());
+                    requestContent.setSessionAttribute(SESSION_USER, user);
+                    Order basket = new Order();
+                    basket.setIdUser(user.getId());
+                    requestContent.setSessionAttribute(SESSION_BASKET, basket);
+                    page = ConfigurationManager.getProperty(INDEX_PAGE_PATH);
+                } else {
+                    requestContent.setAttribute(ATTR_BANNED, "wrong");
+                    page = ConfigurationManager.getProperty(LOGIN_PAGE_PATH);
+                }
             } else {
                 requestContent.setAttribute(WRONG_LOGIN_OR_PASSWORD, "wrong");
                 page = ConfigurationManager.getProperty(LOGIN_PAGE_PATH);
@@ -53,7 +62,8 @@ public class LoginCommand implements ActionCommand {
             requestContent.setAttribute(ERROR_ATTR, e);
             page = ConfigurationManager.getProperty(ERROR_PAGE_PATH);
         }
-        return page;
+        router.setPagePath(page);
+        return router;
     }
 }
 

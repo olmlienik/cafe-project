@@ -8,11 +8,14 @@ import by.mlionik.cafe.entity.type.RoleType;
 import by.mlionik.cafe.manager.MessageManager;
 import org.apache.commons.codec.digest.DigestUtils;
 import java.sql.*;
-import static by.mlionik.cafe.dao.UserQuery.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static by.mlionik.cafe.dao.query.UserQuery.*;
 
 public class UserDao extends AbstractDAO<User> implements UserDaoAction {
 
-    private static final String ID = "id_user";
+    private static final String ID_USER = "id_user";
     private static final String IS_BANNED = "is_banned";
     private static final String ROLE = "role";
     private static final String LOGIN = "login";
@@ -69,6 +72,17 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
             preparedStatement.setInt(4, user.getId());
             preparedStatement.executeUpdate();
             return user;
+        } catch (SQLException e) {
+            throw new DaoException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+        }
+    }
+
+    public boolean updateBan(int userId, boolean ban) throws DaoException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_BAN)) {
+            preparedStatement.setBoolean(1, ban);
+            preparedStatement.setInt(2, userId);
+            boolean updated  = preparedStatement.executeUpdate() > 0;
+            return updated;
         } catch (SQLException e) {
             throw new DaoException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
         }
@@ -151,9 +165,48 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
         }
     }
 
+    public List<User> findAll() throws DaoException {
+        List<User> userList = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_USERS);
+            while (resultSet.next()) {
+                userList.add(createUserFromResultSet(resultSet));
+            }
+            return userList;
+        } catch (SQLException e) {
+            throw new DaoException("Error while finding all users in db", e);
+        }
+    }
+
+    public List<User> findActiveUsers() throws DaoException {
+        List<User> userList = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(SQL_SELECT_UNBANNED_USERS);
+            while (resultSet.next()) {
+                userList.add(createUserFromResultSet(resultSet));
+            }
+            return userList;
+        } catch (SQLException e) {
+            throw new DaoException("Error while finding unbanned users in db", e);
+        }
+    }
+
+    public List<User> findBannedUsers() throws DaoException {
+        List<User> userList = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(SQL_SELECT_BANNED_USERS);
+            while (resultSet.next()) {
+                userList.add(createUserFromResultSet(resultSet));
+            }
+            return userList;
+        } catch (SQLException e) {
+            throw new DaoException("Error while finding banned users in db", e);
+        }
+    }
+
     private User createUserFromResultSet(ResultSet resultSet) throws SQLException {
         User user = new User();
-        user.setId(resultSet.getInt(ID));
+        user.setId(resultSet.getInt(ID_USER));
         user.setRole(RoleType.valueOf(resultSet.getString(ROLE).toUpperCase().replaceAll("\\s", "_")));
         user.setLogin(resultSet.getString(LOGIN));
         user.setPassword(resultSet.getString(PASSWORD));
