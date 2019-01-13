@@ -4,10 +4,13 @@ import by.mlionik.cafe.command.impl.admin.*;
 import by.mlionik.cafe.command.impl.base.*;
 import by.mlionik.cafe.command.impl.user.*;
 
+/**
+ * The type Command enum.
+ */
 public enum CommandEnum {
     SIGN_UP(new SignUpCommand()),
-    LOGIN (new LoginCommand()),
-    LOGOUT (new LogoutCommand()),
+    LOGIN(new LoginCommand()),
+    LOGOUT(new LogoutCommand()),
     CHANGE_LANGUAGE(new ChangeLanguageCommand()),
     FIND_ALL_DISHES(new FindAllDishesCommand()),
     ADD_TO_BASKET(new AddToBasketCommand()),
@@ -23,14 +26,28 @@ public enum CommandEnum {
     UNBAN_USER(new UnbanUserCommand()),
     ADD_NEW_DISH(new AddNewDishCommand()),
     APPROVE_ORDER(new ApproveOrderCommand()),
-    REJECT_ORDER(new RejectOrderCommand());
+    REJECT_ORDER(new RejectOrderCommand()),
+    DELETE_DISH(new DeleteDishCommand()),
+    ADD_REVIEW(new AddReviewCommand()),
+    FIND_ALL_REVIEWS(new FindAllReviewsCommand()),
+    DELETE_REVIEW(new DeleteReviewCommand());
 
     private ActionCommand command;
 
+    /**
+     * Instantiates a new command enum.
+     *
+     * @param command the command
+     */
     CommandEnum(ActionCommand command) {
         this.command = command;
     }
 
+    /**
+     * Gets the current command.
+     *
+     * @return the current command
+     */
     public ActionCommand getCurrentCommand() {
         return command;
     }

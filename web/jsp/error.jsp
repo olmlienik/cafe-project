@@ -16,9 +16,11 @@
     <title>Error</title>
 </head>
 <body>
+<fmt:setLocale value="${sessionScope.locale}"/>
+<fmt:setBundle basename="localization.locale"/>
 <c:set var="lastPage" value="/jsp/error.jsp" scope="session" />
 <c:import url="header.jsp"/>
-<h1>Ooops, something happened!</h1>
+<h1><fmt:message key="error.msg"/></h1>
 <cafe:customFooter locale="${sessionScope.locale}" />
 </body>
 </html>

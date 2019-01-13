@@ -5,19 +5,33 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+/**
+ * The Class ProxyConnection.
+ */
 public class ProxyConnection implements Connection {
+
     private Connection connection;
 
+    /**
+     * Instantiates a new proxy connection.
+     *
+     * @param connection the connection
+     */
     ProxyConnection(Connection connection) {
         this.connection = connection;
     }
 
+    /**
+     * Close connection.
+     *
+     * @throws SQLException the SQL exception
+     */
     void closeConnection() throws SQLException {
         connection.close();
     }
 
     @Override
-    public void close()throws SQLException {
+    public void close() throws SQLException {
         ConnectionPool.getInstance().returnConnection(this);
     }
 

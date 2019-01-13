@@ -8,16 +8,17 @@ import by.mlionik.cafe.entity.type.DishType;
 import by.mlionik.cafe.exception.NoSuchRequestParameterException;
 import by.mlionik.cafe.manager.ConfigurationManager;
 import by.mlionik.cafe.service.ServiceException;
-import by.mlionik.cafe.service.impl.DishService;
+import by.mlionik.cafe.service.impl.DishServiceImpl;
 import by.mlionik.cafe.util.DishValidator;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Add new dish command.
+ */
 public class AddNewDishCommand implements ActionCommand {
-
     private static final Logger logger = LogManager.getLogger();
-
     private static final String DISH_ATTR = "newDish";
     private static final String NAME_PARAM = "name";
     private static final String COST_PARAM = "cost";
@@ -30,12 +31,13 @@ public class AddNewDishCommand implements ActionCommand {
     private static final String WRONG_PICTURE_NAME_ATTR = "wrongPictureName";
     private static final String SESSION_LAST_PAGE = "lastPage";
     private static final String IMAGES_PATH = "/images/";
-
-    private DishService dishService = new DishService();
+    private static DishServiceImpl dishService = new DishServiceImpl();
 
     @Override
     public Router execute(SessionRequestContent requestContent) {
         String page;
+        Router router = new Router();
+        router.setRouteType(Router.RouteType.FORWARD);
         requestContent.setSessionAttribute(WRONG_NAME_ATTR, null);
         requestContent.setSessionAttribute(WRONG_COST_ATTR, null);
         requestContent.setSessionAttribute(WRONG_PICTURE_NAME_ATTR, null);
@@ -49,6 +51,7 @@ public class AddNewDishCommand implements ActionCommand {
                     if (DishValidator.isExistingPicture(pictureName)) {
                         Dish newDish = dishService.create(new Dish(dishName, Double.parseDouble(cost), IMAGES_PATH + pictureName, DishType.valueOf(category.toUpperCase())));
                         requestContent.setAttribute(DISH_ATTR, newDish);
+                        router.setRouteType(Router.RouteType.REDIRECT);
                     } else {
                         requestContent.setAttribute(WRONG_PICTURE_NAME_ATTR, "bad");
                     }
@@ -64,11 +67,7 @@ public class AddNewDishCommand implements ActionCommand {
             requestContent.setAttribute(ERROR_ATTR, e.getMessage());
             page = ConfigurationManager.getProperty(ERROR_PAGE_PATH);
         }
-
-        Router router = new Router();
-        router.setRouteType(Router.RouteType.REDIRECT);
         router.setPagePath(page);
         return router;
     }
-
 }

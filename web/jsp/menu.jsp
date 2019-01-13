@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="cafe" uri="/WEB-INF/custom.tld"%>
+<%@ taglib prefix="cafe" uri="/WEB-INF/custom.tld" %>
 <html>
 <head>
     <title>Menu</title>
@@ -18,14 +18,10 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="localization.locale"/>
 <c:set var="lastPage" value="/controller?command=find_all_dishes" scope="session"/>
-
 <c:import url="header.jsp"/>
-
 <div class="tab-content">
-    <h2>Menu</h2>
     <div class="container">
         <div class="tab-pane fade in active">
-
             <c:forEach var="curDish" items="${requestScope.dish}">
                 <div class="media">
                     <div class="media-left">
@@ -37,14 +33,19 @@
                     </div>
                 </div>
                 <c:if test="${sessionScope.role =='SIGNED_USER'}">
-                <h3> <a href="/controller?command=add_to_basket&currentDishId=${curDish.id}"><fmt:message key="add.to.basket"/></a> </h3>
+                    <form method="post" action="/controller">
+                        <input type="hidden" name="currentDishId" value="${curDish.id}"/>
+                        <input type="hidden" name="command" value="add_to_basket">
+                        <button name="submit" type="submit" class="btn btn-primary">
+                            <fmt:message key="add.to.basket"/>
+                        </button>
+                    </form>
                 </c:if>
                 <hr>
             </c:forEach>
         </div>
     </div>
 </div>
-
-<cafe:customFooter locale="${sessionScope.locale}" />
+<cafe:customFooter locale="${sessionScope.locale}"/>
 </body>
 </html>

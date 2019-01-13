@@ -15,14 +15,11 @@
     <title>Sign up</title>
     <link href="/css/registration.css" rel="stylesheet">
 </head>
-
 <body>
 <c:set var="lastPage" value="/jsp/registrationForm.jsp" scope="session"/>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="localization.locale"/>
-
 <c:import url="header.jsp"/>
-
 <div class="login-page">
     <div class="form">
         <form method="post" action="/controller">
@@ -72,8 +69,6 @@
         </form>
     </div>
 </div>
-
 <cafe:customFooter locale="${sessionScope.locale}" />
-
 </body>
 </html>

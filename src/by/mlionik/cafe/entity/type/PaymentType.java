@@ -2,5 +2,6 @@ package by.mlionik.cafe.entity.type;
 
 public enum PaymentType {
     WHEN_RECEIVING,
-    FROM_ACCOUNT
+    FROM_ACCOUNT,
+    BY_POINTS
 }

@@ -6,19 +6,22 @@ import by.mlionik.cafe.controller.SessionRequestContent;
 import by.mlionik.cafe.exception.NoSuchRequestParameterException;
 import by.mlionik.cafe.manager.ConfigurationManager;
 import by.mlionik.cafe.service.ServiceException;
-import by.mlionik.cafe.service.impl.UserService;
+import by.mlionik.cafe.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Ban user command.
+ */
 public class BanUserCommand implements ActionCommand {
     private static Logger logger = LogManager.getLogger();
     private static final String SESSION_LAST_PAGE = "lastPage";
     private static final String USER_ID_PARAM = "userId";
     private static final String ERROR_PAGE_PATH = "path.page.error";
     private static final String ERROR_ATTR = "errorMsg";
+    private static UserServiceImpl userService = new UserServiceImpl();
 
-    private UserService userService = new UserService();
 
     @Override
     public Router execute(SessionRequestContent requestContent) {
@@ -33,7 +36,7 @@ public class BanUserCommand implements ActionCommand {
             page = ConfigurationManager.getProperty(ERROR_PAGE_PATH);
         }
         Router router = new Router();
-        router.setRouteType(Router.RouteType.FORWARD);
+        router.setRouteType(Router.RouteType.REDIRECT);
         router.setPagePath(page);
         return router;
     }

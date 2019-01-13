@@ -1,0 +1,73 @@
+
+.line_book {
+    display: block;
+    margin: 10px auto;
+}
+
+.reviews_items {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.reviews_item {
+    display: inline-block;
+    width: 80%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.reviews_name {
+    display: block;
+    margin-top: 20px;
+    font-family: 'Bolero script', sans-serif;
+    color: #4f4f4f;
+    font-size: 24px;
+    line-height: 26px;
+    text-align: left;
+}
+
+.main_reviews_ramka {
+    position: relative;
+    margin-right: 100px;
+    margin-left: 0px;
+    padding: 20px;
+    border-radius: 0px 26px 26px;
+    background-color: #e4e4e4;
+}
+
+
+.main_reviews_ramka.single_review_item {
+    margin-right: 75px;
+}
+
+.main_reviews_ramka.single_review_item p {
+    text-align: left;
+    margin-bottom: 0px;
+    font-family: 'Open Sans', sans-serif;
+    color: #4f4f4f;
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 300;
+}
+
+.main_reviews_text {
+    margin-bottom: 0px;
+    font-family: 'Open Sans', sans-serif;
+    color: #4f4f4f;
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 300;
+    text-align: left
+}
+
+.arrow_left {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    margin-left: -45px;
+}
+
+/*h2{*/
+    /*text-align: center;*/
+/*}*/

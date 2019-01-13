@@ -6,13 +6,16 @@ import by.mlionik.cafe.controller.SessionRequestContent;
 import by.mlionik.cafe.entity.User;
 import by.mlionik.cafe.manager.ConfigurationManager;
 import by.mlionik.cafe.service.ServiceException;
-import by.mlionik.cafe.service.impl.UserService;
+import by.mlionik.cafe.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * The type Find all users command.
+ */
 public class FindAllUsersCommand implements ActionCommand {
     private static Logger logger = LogManager.getLogger();
     private static final String ATTR_ACTIVE_USERS = "activeUsers";
@@ -20,8 +23,7 @@ public class FindAllUsersCommand implements ActionCommand {
     private static final String USERS_PAGE_PATH = "path.page.users";
     private static final String ERROR_PAGE_PATH = "path.page.error";
     private static final String ERROR_ATTR = "errorMsg";
-
-    private UserService userService = new UserService();
+    private static UserServiceImpl userService = new UserServiceImpl();
 
     @Override
     public Router execute(SessionRequestContent requestContent) {

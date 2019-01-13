@@ -5,13 +5,12 @@
   Time: 13:37
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
-  <head>
+<head>
     <title>Cafe</title>
-  </head>
-
-  <body>
-  <jsp:forward page="/jsp/main.jsp"/>
-  </body>
+</head>
+<body>
+<jsp:forward page="/jsp/main.jsp"/>
+</body>
 </html>

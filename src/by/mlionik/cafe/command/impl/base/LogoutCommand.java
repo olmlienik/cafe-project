@@ -6,6 +6,9 @@ import by.mlionik.cafe.controller.SessionRequestContent;
 import by.mlionik.cafe.entity.type.RoleType;
 import by.mlionik.cafe.manager.ConfigurationManager;
 
+/**
+ * The type Logout command.
+ */
 public class LogoutCommand implements ActionCommand {
     private static final String USER_ATTR = "user";
     private static final String ROLE_ATTR = "role";

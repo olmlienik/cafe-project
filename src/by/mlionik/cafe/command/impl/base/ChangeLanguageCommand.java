@@ -8,7 +8,9 @@ import by.mlionik.cafe.manager.ConfigurationManager;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+/**
+ * The type Change language command.
+ */
 public class ChangeLanguageCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static final String LANGUAGE_PARAM = "language";

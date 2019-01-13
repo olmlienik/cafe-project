@@ -10,6 +10,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Cancel order command.
+ */
 public class CancelOrderCommand implements ActionCommand {
     private static Logger logger = LogManager.getLogger();
     private static final String SESSION_LAST_PAGE = "lastPage";

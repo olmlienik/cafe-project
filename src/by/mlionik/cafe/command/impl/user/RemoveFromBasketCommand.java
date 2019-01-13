@@ -11,6 +11,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Remove from basket command.
+ */
 public class RemoveFromBasketCommand implements ActionCommand {
     private static Logger logger = LogManager.getLogger();
     private static final String DISH_INDEX_PARAM = "dishIndex";

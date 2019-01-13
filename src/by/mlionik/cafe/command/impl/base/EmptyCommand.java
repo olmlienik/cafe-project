@@ -5,6 +5,9 @@ import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
 import by.mlionik.cafe.manager.ConfigurationManager;
 
+/**
+ * The type Empty command.
+ */
 public class EmptyCommand implements ActionCommand {
     private static final String ERROR_PAGE_PATH = "path.page.error";
 

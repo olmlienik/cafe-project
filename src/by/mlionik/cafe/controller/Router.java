@@ -1,30 +1,50 @@
 package by.mlionik.cafe.controller;
 
-
-public class Router
-{
-    public enum RouteType{FORWARD, REDIRECT}
+/**
+ * The type Router.
+ */
+public class Router {
+    /**
+     * The enum that contains route type.
+     */
+    public enum RouteType {FORWARD, REDIRECT}
 
     private String pagePath;
     private RouteType routeType = RouteType.FORWARD;
 
-    public void setPagePath(String pagePath)
-    {
-        this.pagePath=pagePath;
+    /**
+     * Sets the page path.
+     *
+     * @param pagePath the new page path
+     */
+    public void setPagePath(String pagePath) {
+        this.pagePath = pagePath;
     }
 
-    public String getPagePath()
-    {
+    /**
+     * Gets the page path.
+     *
+     * @return the page path
+     */
+    public String getPagePath() {
         return pagePath;
     }
 
-    public void setRouteType(RouteType routeType)
-    {
-        this.routeType=routeType;
+    /**
+     * Sets the route type.
+     *
+     * @param routeType the new route type
+     */
+    public void setRouteType(RouteType routeType) {
+        this.routeType = routeType;
     }
 
-    public RouteType getRouteType()
-    {
+    /**
+     * Gets the route type.
+     *
+     * @return the route type
+     */
+    public RouteType getRouteType() {
         return routeType;
     }
 }

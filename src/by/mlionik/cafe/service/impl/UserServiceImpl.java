@@ -1,26 +1,24 @@
 package by.mlionik.cafe.service.impl;
 
-import by.mlionik.cafe.dao.impl.UserDao;
+import by.mlionik.cafe.dao.impl.UserDaoImpl;
 import by.mlionik.cafe.dao.DaoException;
 import by.mlionik.cafe.entity.User;
-import by.mlionik.cafe.manager.MessageManager;
 import by.mlionik.cafe.dao.TransactionManager;
 import by.mlionik.cafe.service.ServiceException;
-import by.mlionik.cafe.service.UserServiceAction;
+import by.mlionik.cafe.service.UserService;
 import by.mlionik.cafe.util.UserValidator;
 
 import java.util.List;
 import java.util.Optional;
 
-public class UserService implements UserServiceAction {
-    private static final String CREATE_USER_ERROR_MSG = "msg.create.user.error";
-    private static final String FIND_USER_ERROR_MSG = "msg.find.user.error";
-    private static final String DELETE_USER_ERROR_MSG = "msg.delete.user.error";
-    private static final String UPDATE_USER_ERROR_MSG = "msg.update.user.error";
+/**
+ * The type User service.
+ */
+public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) throws ServiceException {
-        UserDao userDAO = new UserDao();
+        UserDaoImpl userDAO = new UserDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(userDAO);
         try {
@@ -32,7 +30,7 @@ public class UserService implements UserServiceAction {
             return currentUser;
         } catch (DaoException e) {
             manager.rollBack();
-            throw new ServiceException(MessageManager.getProperty(CREATE_USER_ERROR_MSG), e);
+            throw new ServiceException("Exception while creating user", e);
         } finally {
             manager.endTransaction();
         }
@@ -40,16 +38,16 @@ public class UserService implements UserServiceAction {
 
     @Override
     public User findById(int id) throws ServiceException {
-        UserDao userDAO = new UserDao();
+        UserDaoImpl userDAO = new UserDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(userDAO);
         try {
             User user = Optional.ofNullable(userDAO.findById(id))
-                    .orElseThrow(() -> new ServiceException(MessageManager.getProperty(FIND_USER_ERROR_MSG)));
+                    .orElseThrow(() -> new ServiceException("Exception while finding user by id = " + id));
             //todo add reviews to list
             return user;
         } catch (DaoException e) {
-            throw new ServiceException(MessageManager.getProperty(FIND_USER_ERROR_MSG), e);
+            throw new ServiceException("Exception while finding user by id = " + id, e);
         } finally {
             manager.endTransaction();
         }
@@ -57,7 +55,7 @@ public class UserService implements UserServiceAction {
 
     @Override
     public User update(User user) throws ServiceException {
-        UserDao userDAO = new UserDao();
+        UserDaoImpl userDAO = new UserDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(userDAO);
         try {
@@ -69,7 +67,7 @@ public class UserService implements UserServiceAction {
             return currentUser;
         } catch (DaoException e) {
             manager.rollBack();
-            throw new ServiceException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+            throw new ServiceException("Exception while updating user id = " + user.getId(), e);
         } finally {
             manager.endTransaction();
         }
@@ -77,7 +75,7 @@ public class UserService implements UserServiceAction {
 
     @Override
     public User updateBalance(User user) throws ServiceException {
-        UserDao userDAO = new UserDao();
+        UserDaoImpl userDAO = new UserDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(userDAO);
         try {
@@ -86,7 +84,7 @@ public class UserService implements UserServiceAction {
             return currentUser;
         } catch (DaoException e) {
             manager.rollBack();
-            throw new ServiceException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+            throw new ServiceException("Exception while updating user balance", e);
         } finally {
             manager.endTransaction();
         }
@@ -94,7 +92,7 @@ public class UserService implements UserServiceAction {
 
     @Override
     public User updateLogin(int userId, String newLogin) throws ServiceException {
-        UserDao userDAO = new UserDao();
+        UserDaoImpl userDAO = new UserDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(userDAO);
         try {
@@ -103,7 +101,7 @@ public class UserService implements UserServiceAction {
             return previousUser;
         } catch (DaoException e) {
             manager.rollBack();
-            throw new ServiceException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+            throw new ServiceException("Exception while updating user login", e);
         } finally {
             manager.endTransaction();
         }
@@ -111,7 +109,7 @@ public class UserService implements UserServiceAction {
 
     @Override
     public User updatePassword(int userId, String newPassword) throws ServiceException {
-        UserDao userDAO = new UserDao();
+        UserDaoImpl userDAO = new UserDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(userDAO);
         try {
@@ -120,7 +118,7 @@ public class UserService implements UserServiceAction {
             return previousUser;
         } catch (DaoException e) {
             manager.rollBack();
-            throw new ServiceException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+            throw new ServiceException("Exception while updating user password", e);
         } finally {
             manager.endTransaction();
         }
@@ -128,7 +126,7 @@ public class UserService implements UserServiceAction {
 
     @Override
     public boolean deleteById(int id) throws ServiceException {
-        UserDao userDAO = new UserDao();
+        UserDaoImpl userDAO = new UserDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(userDAO);
         try {
@@ -137,7 +135,7 @@ public class UserService implements UserServiceAction {
             return isDeleted;
         } catch (DaoException e) {
             manager.rollBack();
-            throw new ServiceException(MessageManager.getProperty(DELETE_USER_ERROR_MSG), e);
+            throw new ServiceException("Exception while deleting user by id = " + id, e);
         } finally {
             manager.endTransaction();
         }
@@ -145,14 +143,14 @@ public class UserService implements UserServiceAction {
 
     @Override
     public User findByLoginAndPassword(String login, String password) throws ServiceException {
-        UserDao userDAO = new UserDao();
+        UserDaoImpl userDAO = new UserDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(userDAO);
         try {
             User user = userDAO.findByLoginAndPassword(login, password);
             return user;
         } catch (DaoException e) {
-            throw new ServiceException(MessageManager.getProperty(FIND_USER_ERROR_MSG), e);
+            throw new ServiceException("Exception while finding user by login and password", e);
         } finally {
             manager.endTransaction();
         }
@@ -160,14 +158,14 @@ public class UserService implements UserServiceAction {
 
     @Override
     public User findByLogin(String login) throws ServiceException {
-        UserDao userDAO = new UserDao();
+        UserDaoImpl userDAO = new UserDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(userDAO);
         try {
             User user = userDAO.findByLogin(login);
             return user;
         } catch (DaoException e) {
-            throw new ServiceException(MessageManager.getProperty(FIND_USER_ERROR_MSG), e);
+            throw new ServiceException("Exception while finding user login", e);
         } finally {
             manager.endTransaction();
         }
@@ -175,7 +173,7 @@ public class UserService implements UserServiceAction {
 
     @Override
     public List<User> findActiveUsers() throws ServiceException {
-        UserDao userDao = new UserDao();
+        UserDaoImpl userDao = new UserDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(userDao);
         try {
@@ -192,7 +190,7 @@ public class UserService implements UserServiceAction {
 
     @Override
     public List<User> findBannedUsers() throws ServiceException {
-        UserDao userDao = new UserDao();
+        UserDaoImpl userDao = new UserDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(userDao);
         try {
@@ -209,7 +207,7 @@ public class UserService implements UserServiceAction {
 
     @Override
     public boolean updateUserBanState(int userId, boolean banState) throws ServiceException {
-        UserDao userDao = new UserDao();
+        UserDaoImpl userDao = new UserDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(userDao);
         try {
@@ -224,4 +222,66 @@ public class UserService implements UserServiceAction {
         }
     }
 
+    @Override
+    public boolean addUserLoyaltyPoints(int userId, int pointsToAdd) throws ServiceException {
+        UserDaoImpl userDao = new UserDaoImpl();
+        TransactionManager manager = new TransactionManager();
+        manager.beginTransaction(userDao);
+        try {
+            User currentUser = userDao.findById(userId);
+            double newPoints = currentUser.getLoyaltyPoints() + pointsToAdd;
+            boolean updated = userDao.updateLoyaltyPoints(userId, newPoints);
+            manager.commit();
+            return updated;
+        } catch (DaoException e) {
+            manager.rollBack();
+            throw new ServiceException("Exception while trying to add loyalty points to user id = " + userId, e);
+        } finally {
+            manager.endTransaction();
+        }
+    }
+
+    @Override
+    public boolean subtractUserLoyaltyPoints(int userId, int pointsToSubtract) throws ServiceException {
+        UserDaoImpl userDao = new UserDaoImpl();
+        TransactionManager manager = new TransactionManager();
+        manager.beginTransaction(userDao);
+        try {
+            User currentUser = userDao.findById(userId);
+            double newPoints;
+            if (currentUser.getLoyaltyPoints() - pointsToSubtract > 0) {
+                newPoints = currentUser.getLoyaltyPoints() - pointsToSubtract;
+            } else {
+                newPoints = 0;
+            }
+            boolean updated = userDao.updateLoyaltyPoints(userId, newPoints);
+            manager.commit();
+            return updated;
+        } catch (DaoException e) {
+            manager.rollBack();
+            throw new ServiceException("Exception while trying to subtract loyalty points to user id = " + userId, e);
+        } finally {
+            manager.endTransaction();
+        }
+    }
+
+    @Override
+    public boolean updateUserLoyaltyPoints(int userId, double newPoints) throws ServiceException {
+        UserDaoImpl userDao = new UserDaoImpl();
+        TransactionManager manager = new TransactionManager();
+        manager.beginTransaction(userDao);
+        try {
+            boolean updated = false;
+            if (newPoints >= 0) {
+                updated = userDao.updateLoyaltyPoints(userId, newPoints);
+            }
+            manager.commit();
+            return updated;
+        } catch (DaoException e) {
+            manager.rollBack();
+            throw new ServiceException("Exception while trying to update user " + userId + " loyalty points", e);
+        } finally {
+            manager.endTransaction();
+        }
+    }
 }

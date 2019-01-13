@@ -10,13 +10,16 @@ import by.mlionik.cafe.entity.type.PaymentType;
 import by.mlionik.cafe.exception.NoSuchRequestParameterException;
 import by.mlionik.cafe.manager.ConfigurationManager;
 import by.mlionik.cafe.service.ServiceException;
-import by.mlionik.cafe.service.impl.OrderService;
-import by.mlionik.cafe.service.impl.UserService;
+import by.mlionik.cafe.service.impl.OrderServiceImpl;
+import by.mlionik.cafe.service.impl.UserServiceImpl;
 import by.mlionik.cafe.util.OrderValidator;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Create order command.
+ */
 public class CreateOrderCommand implements ActionCommand {
     private static Logger logger = LogManager.getLogger();
     private static final String SESSION_LAST_PAGE = "lastPage";
@@ -30,9 +33,8 @@ public class CreateOrderCommand implements ActionCommand {
     private static final String ATTR_NOT_ENOUGH = "notEnough";
     private static final String ATTR_EMPTY_BASKET = "emptyBasket";
     private static final String SESSION_USER = "user";
-
-    private OrderService orderService = new OrderService();
-    private UserService userService = new UserService();
+    private static OrderServiceImpl orderService = new OrderServiceImpl();
+    private static UserServiceImpl userService = new UserServiceImpl();
 
     @Override
     public Router execute(SessionRequestContent requestContent) {
@@ -40,13 +42,11 @@ public class CreateOrderCommand implements ActionCommand {
         requestContent.setAttribute(ATTR_BAD_PAY_TYPE, null);
         requestContent.setAttribute(ATTR_BAD_TIME, null);
         requestContent.setAttribute(ATTR_NOT_ENOUGH, null);
-
         try {
             Order order = (Order) requestContent.getSessionAttribute(SESSION_BASKET);
             String gettingTime = requestContent.getParameter(DELIVERY_TIME_PARAM);
-
             if (!order.getDishes().isEmpty()) {
-                if (OrderValidator.timeCheck(gettingTime)){
+                if (OrderValidator.timeCheck(gettingTime)) {
                     if (!requestContent.getParameter(PAYMENT_TYPE_PARAM).isEmpty()) {
                         PaymentType paymentType = PaymentType.valueOf(requestContent.getParameter(PAYMENT_TYPE_PARAM).toUpperCase());
                         User user = (User) requestContent.getSessionAttribute(SESSION_USER);
@@ -60,6 +60,11 @@ public class CreateOrderCommand implements ActionCommand {
                                     userService.updateBalance(user);
                                     break;
                                 case WHEN_RECEIVING:
+                                    break;
+                                case BY_POINTS:
+                                    double currentPoints = user.getLoyaltyPoints() - order.getPrice();
+                                    user.setLoyaltyPoints(currentPoints);
+                                    userService.updateUserLoyaltyPoints(user.getId(), currentPoints);
                                     break;
                             }
                             requestContent.setSessionAttribute(SESSION_BASKET, new Order());

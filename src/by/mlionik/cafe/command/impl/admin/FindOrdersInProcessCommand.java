@@ -3,17 +3,19 @@ package by.mlionik.cafe.command.impl.admin;
 import by.mlionik.cafe.command.ActionCommand;
 import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
-import by.mlionik.cafe.entity.Dish;
 import by.mlionik.cafe.entity.Order;
 import by.mlionik.cafe.manager.ConfigurationManager;
 import by.mlionik.cafe.service.ServiceException;
-import by.mlionik.cafe.service.impl.OrderService;
+import by.mlionik.cafe.service.impl.OrderServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * The type Find orders in process command.
+ */
 public class FindOrdersInProcessCommand implements ActionCommand {
     private static Logger logger = LogManager.getLogger();
     private static final String ORDERS_IN_PROCESS_ATTR = "ordersInProcess";
@@ -21,8 +23,7 @@ public class FindOrdersInProcessCommand implements ActionCommand {
     private static final String ERROR_PAGE_PATH = "path.page.error";
     private static final String ERROR_ATTR = "errorMsg";
     private static final String ORDERS_PAGE_PATH = "path.page.orders";
-
-    private OrderService orderService = new OrderService();
+    private static OrderServiceImpl orderService = new OrderServiceImpl();
 
     @Override
     public Router execute(SessionRequestContent requestContent) {

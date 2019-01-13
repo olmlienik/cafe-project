@@ -7,34 +7,39 @@ import by.mlionik.cafe.entity.type.OrderState;
 import by.mlionik.cafe.exception.NoSuchRequestParameterException;
 import by.mlionik.cafe.manager.ConfigurationManager;
 import by.mlionik.cafe.service.ServiceException;
-import by.mlionik.cafe.service.impl.OrderService;
+import by.mlionik.cafe.service.impl.OrderServiceImpl;
+import by.mlionik.cafe.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+/**
+ * The type Reject order command.
+ */
 public class RejectOrderCommand implements ActionCommand {
-        private static final Logger logger = LogManager.getLogger();
-        private static final String SESSION_LAST_PAGE = "lastPage";
-        private static final String ORDER_ID_PARAM = "orderId";
-        private static final String ERROR_PAGE_PATH = "path.page.error";
+    private static final Logger logger = LogManager.getLogger();
+    private static final String SESSION_LAST_PAGE = "lastPage";
+    private static final String ORDER_ID_PARAM = "orderId";
+    private static final String CLIENT_ID_PARAM = "clientId";
+    private static final String ERROR_PAGE_PATH = "path.page.error";
+    private static OrderServiceImpl orderService = new OrderServiceImpl();
+    private static UserServiceImpl userService = new UserServiceImpl();
 
-        private OrderService orderService = new OrderService();
-
-        @Override
-        public Router execute(SessionRequestContent requestContent) {
-            String page;
-            try {
-                int orderId = Integer.parseInt(requestContent.getParameter(ORDER_ID_PARAM));
-                orderService.updateOrderState(orderId, OrderState.MISSED);
-                //todo отнять bonuses
-                page = (String) requestContent.getSessionAttribute(SESSION_LAST_PAGE);
-            } catch (NoSuchRequestParameterException | ServiceException e) {
-                logger.log(Level.ERROR, e);
-                page =  ConfigurationManager.getProperty(ERROR_PAGE_PATH);
-            }
-            Router router = new Router();
-            router.setPagePath(page);
-            router.setRouteType(Router.RouteType.FORWARD);
-            return router;
+    @Override
+    public Router execute(SessionRequestContent requestContent) {
+        String page;
+        try {
+            int orderId = Integer.parseInt(requestContent.getParameter(ORDER_ID_PARAM));
+            orderService.updateOrderState(orderId, OrderState.MISSED);
+            int clientId = Integer.parseInt(requestContent.getParameter(CLIENT_ID_PARAM));
+            userService.subtractUserLoyaltyPoints(clientId, 1);
+            page = (String) requestContent.getSessionAttribute(SESSION_LAST_PAGE);
+        } catch (NoSuchRequestParameterException | ServiceException e) {
+            logger.log(Level.ERROR, e);
+            page = ConfigurationManager.getProperty(ERROR_PAGE_PATH);
         }
+        Router router = new Router();
+        router.setPagePath(page);
+        router.setRouteType(Router.RouteType.FORWARD);
+        return router;
+    }
 }

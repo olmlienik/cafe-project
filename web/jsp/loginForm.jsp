@@ -43,9 +43,10 @@
             <c:if test="${not empty requestScope.isBanned}">
                 <p class="text-danger"><fmt:message key="banned.msg"/></p>
             </c:if>
-            <p class="message"><fmt:message key="not.registered.msg"/><a href="../jsp/registrationForm.jsp"><fmt:message
-                    key="create.account.msg"/></a></p>
-            <p class="message"><a href="../index.jsp"><fmt:message key="back.to.main"/></a></p>
+            <p class="message"><fmt:message key="not.registered.msg"/>
+                <a href="${pageContext.request.contextPath}/jsp/registrationForm.jsp">
+                    <fmt:message key="create.account.msg"/></a></p>
+            <p class="message"><a href="${pageContext.request.contextPath}/index.jsp"><fmt:message key="back.to.main"/></a></p>
         </form>
     </div>
 </div>

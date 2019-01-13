@@ -2,18 +2,20 @@ package by.mlionik.cafe.service.impl;
 
 import by.mlionik.cafe.dao.DaoException;
 import by.mlionik.cafe.dao.TransactionManager;
-import by.mlionik.cafe.dao.impl.DishDao;
-import by.mlionik.cafe.dao.impl.OrderDao;
+import by.mlionik.cafe.dao.impl.DishDaoImpl;
+import by.mlionik.cafe.dao.impl.OrderDaoImpl;
 import by.mlionik.cafe.entity.Dish;
 import by.mlionik.cafe.entity.Order;
 import by.mlionik.cafe.entity.OrderPart;
 import by.mlionik.cafe.entity.type.OrderState;
 import by.mlionik.cafe.entity.type.PaymentType;
-import by.mlionik.cafe.service.OrderServiceAction;
+import by.mlionik.cafe.service.OrderService;
 import by.mlionik.cafe.service.ServiceException;
 import java.util.List;
-
-public class OrderService implements OrderServiceAction {
+/**
+ * The type Order service.
+ */
+public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order create(int userId, String deliveryTime, PaymentType paymentType, OrderState state,
@@ -23,7 +25,7 @@ public class OrderService implements OrderServiceAction {
             totalPrice += currentDish.getCost();
         }
         Order newOrder = new Order(userId, deliveryTime, paymentType, totalPrice, state, dishes);
-        OrderDao orderDao = new OrderDao();
+        OrderDaoImpl orderDao = new OrderDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(orderDao);
         try {
@@ -43,25 +45,11 @@ public class OrderService implements OrderServiceAction {
         }
     }
 
-    @Override
-    public List<Order> findOrdersInProcess() throws ServiceException {
-        OrderDao orderDao = new OrderDao();
-        TransactionManager manager = new TransactionManager();
-        manager.beginTransaction(orderDao);
-        try {
-            List<Order> ordersInProcess = orderDao.findOrdersInProcessWithoutComposition();
-            return ordersInProcess;
-        } catch (DaoException e) {
-            throw new ServiceException("Exception while finding orders in process ", e);
-        } finally {
-            manager.endTransaction();
-        }
-    }
 
     @Override
     public List<Order> findOrdersInProcessWithComposition() throws ServiceException {
-        OrderDao orderDao = new OrderDao();
-        DishDao dishDao = new DishDao();
+        OrderDaoImpl orderDao = new OrderDaoImpl();
+        DishDaoImpl dishDao = new DishDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(orderDao, dishDao);
         try {
@@ -73,8 +61,7 @@ public class OrderService implements OrderServiceAction {
                         for (OrderPart orderPart : orderPartList) {
                             Dish currentDish = dishDao.findById(orderPart.getDishId());
                             currentOrder.addToBasket(currentDish);
-                            double currentOrderPrice = currentOrder.getPrice() + currentDish.getCost();
-                            currentOrder.setPrice(currentOrderPrice);
+                            currentOrder.setPrice(currentOrder.getPrice() + currentDish.getCost());
                         }
                     }
                 }
@@ -88,37 +75,8 @@ public class OrderService implements OrderServiceAction {
     }
 
     @Override
-    public List<Order> findOrdersByUserId(int userId) throws ServiceException {
-        OrderDao orderDao = new OrderDao();
-        DishDao dishDao = new DishDao();
-        TransactionManager manager = new TransactionManager();
-        manager.beginTransaction(orderDao, dishDao);
-        try {
-            List<Order> orderList = orderDao.findOrdersByUserId(userId);
-            if (!orderList.isEmpty()) {
-                for (Order currentOrder : orderList) {
-                    List<OrderPart> orderPartList = orderDao.findOrderCompositionByOrderId(currentOrder.getId());
-                    if (!orderPartList.isEmpty()) {
-                        for (OrderPart orderPart : orderPartList) {
-                            Dish currentDish = dishDao.findById(orderPart.getDishId());
-                            currentOrder.addToBasket(currentDish);
-                            double currentOrderPrice = currentOrder.getPrice() + currentDish.getCost();
-                            currentOrder.setPrice(currentOrderPrice);
-                        }
-                    }
-                }
-            }
-            return orderList;
-        } catch (DaoException e) {
-            throw new ServiceException("Exception while finding orders by client id = " + userId + " with composition", e);
-        } finally {
-            manager.endTransaction();
-        }
-    }
-
-    @Override
     public boolean updateOrderState(int orderId, OrderState orderState) throws ServiceException {
-        OrderDao orderDao = new OrderDao();
+        OrderDaoImpl orderDao = new OrderDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(orderDao);
         try {
@@ -132,5 +90,4 @@ public class OrderService implements OrderServiceAction {
             manager.endTransaction();
         }
     }
-
 }

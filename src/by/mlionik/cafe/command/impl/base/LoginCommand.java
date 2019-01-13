@@ -3,17 +3,19 @@ package by.mlionik.cafe.command.impl.base;
 import by.mlionik.cafe.command.ActionCommand;
 import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
-
 import by.mlionik.cafe.entity.Order;
 import by.mlionik.cafe.entity.User;
 import by.mlionik.cafe.exception.NoSuchRequestParameterException;
 import by.mlionik.cafe.manager.ConfigurationManager;
 import by.mlionik.cafe.service.ServiceException;
-import by.mlionik.cafe.service.impl.UserService;
+import by.mlionik.cafe.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Login command.
+ */
 public class LoginCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
     private static final String LOGIN_PARAM = "login";
@@ -27,9 +29,7 @@ public class LoginCommand implements ActionCommand {
     private static final String WRONG_LOGIN_OR_PASSWORD = "wrongLoginOrPassword";
     private static final String ATTR_BANNED = "isBanned";
     private static final String SESSION_BASKET = "basket";
-
-
-    private UserService userService = new UserService();
+    private static UserServiceImpl userService = new UserServiceImpl();
 
     @Override
     public Router execute(SessionRequestContent requestContent) {
@@ -49,6 +49,7 @@ public class LoginCommand implements ActionCommand {
                     basket.setIdUser(user.getId());
                     requestContent.setSessionAttribute(SESSION_BASKET, basket);
                     page = ConfigurationManager.getProperty(INDEX_PAGE_PATH);
+                    router.setRouteType(Router.RouteType.REDIRECT);
                 } else {
                     requestContent.setAttribute(ATTR_BANNED, "wrong");
                     page = ConfigurationManager.getProperty(LOGIN_PAGE_PATH);

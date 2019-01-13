@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	<Configuration state = "info">
+	<Configuration state = "error">
         <Properties>
 			<property name="LOG_DIR">logs</property>
 			<property name="ARCHIVE_LOG_DIR">${LOG_DIR}/archive</property>
@@ -10,15 +10,7 @@
 		<Appenders>
 			<Console name="Console" target="SYSTEM_OUT">
 				<PatternLayout pattern="${pattern_0}"/>
-			<!--	<filters>
-					<MarkerFilter marker="EXCEPTION" onMatch="ACCEPT" onMismatch="DENY"/>
-				</filters>
-				-->
 			</Console>
-			<!-- <File name="File1" fileName="logs/text.log" bufferedIO="true">
-				<PatternLayout pattern="${pattern}"/>
-			</File> -->
-
             <RollingFile name="FileZip" fileName="${LOG_DIR}/text2.log" append="true"
                          filePattern = "${ARCHIVE_LOG_DIR}/${date:yyyy-MM-dd}/%d{yyyy-MM-dd_HH-mm}_%i.log.zip">
                 <PatternLayout pattern="${pattern}"/>
@@ -32,15 +24,12 @@
 						 filePattern = "logs/${date:yyyy-MM-dd}/%d{yyyy-MM-dd_HH-mm}_%i.log">
 				<PatternLayout pattern="${pattern}"/>
 				<Policies>
-
 					<SizeBasedTriggeringPolicy size="1 KB"/>
 				</Policies>
 				<DefaultRolloverStrategy max="10"/>
 			</RollingFile>
 		</Appenders>
-		
 		<Loggers>
-
 			<Root level = "debug" >
                 <Appender-ref ref = "File" level = "trace" />
 				<Appender-ref ref="Console" level = "trace"/>

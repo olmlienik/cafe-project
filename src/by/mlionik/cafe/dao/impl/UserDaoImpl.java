@@ -1,20 +1,21 @@
 package by.mlionik.cafe.dao.impl;
 
-import by.mlionik.cafe.dao.AbstractDAO;
+import by.mlionik.cafe.dao.AbstractDao;
 import by.mlionik.cafe.dao.DaoException;
-import by.mlionik.cafe.dao.UserDaoAction;
+import by.mlionik.cafe.dao.UserDao;
 import by.mlionik.cafe.entity.User;
 import by.mlionik.cafe.entity.type.RoleType;
-import by.mlionik.cafe.manager.MessageManager;
 import org.apache.commons.codec.digest.DigestUtils;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.mlionik.cafe.dao.query.UserQuery.*;
+import static by.mlionik.cafe.dao.impl.UserQuery.*;
 
-public class UserDao extends AbstractDAO<User> implements UserDaoAction {
-
+/**
+ * The type User dao.
+ */
+public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final String ID_USER = "id_user";
     private static final String IS_BANNED = "is_banned";
     private static final String ROLE = "role";
@@ -24,14 +25,6 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
     private static final String LOYALTY_POINTS = "loyalty_points";
     private static final String BALANCE = "balance";
     private static final String IS_DELETED = "is_deleted";
-    private static final String UPDATE_USER_ERROR_MSG = "msg.update.user.error";
-    private static final String FIND_USER_ERROR_MSG = "msg.find.user.error";
-    private static final String CREATE_USER_ERROR_MSG = "msg.create.user.error";
-    private static final String DELETE_USER_ERROR_MSG = "msg.delete.user.error";
-
-    public UserDao() {
-        super();
-    }
 
     @Override
     public User create(User user) throws DaoException {
@@ -46,7 +39,7 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
             }
             return user;
         } catch (SQLException e) {
-            throw new DaoException(MessageManager.getProperty(CREATE_USER_ERROR_MSG), e);
+            throw new DaoException("Exception while trying to create user in db", e);
         }
     }
 
@@ -61,7 +54,7 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
             }
             return user;
         } catch (SQLException e) {
-            throw new DaoException(MessageManager.getProperty(FIND_USER_ERROR_MSG), e);
+            throw new DaoException("Exception while trying to find user by id = " + id + " in db", e);
         }
     }
 
@@ -73,7 +66,7 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
             preparedStatement.executeUpdate();
             return user;
         } catch (SQLException e) {
-            throw new DaoException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+            throw new DaoException("Exception while trying to update user id = " + user.getId() + " in db", e);
         }
     }
 
@@ -81,13 +74,14 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_BAN)) {
             preparedStatement.setBoolean(1, ban);
             preparedStatement.setInt(2, userId);
-            boolean updated  = preparedStatement.executeUpdate() > 0;
+            boolean updated = preparedStatement.executeUpdate() > 0;
             return updated;
         } catch (SQLException e) {
-            throw new DaoException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+            throw new DaoException("Exception while trying to update user id = " + userId + " ban state in db", e);
         }
     }
 
+    @Override
     public User updateBalance(User user) throws DaoException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_BALANCE)) {
             preparedStatement.setDouble(1, user.getBalance());
@@ -95,10 +89,11 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
             preparedStatement.executeUpdate();
             return user;
         } catch (SQLException e) {
-            throw new DaoException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+            throw new DaoException("Exception while trying to update user id = " + user.getId() + " balance in db", e);
         }
     }
 
+    @Override
     public User updateLogin(int userId, String newLogin) throws DaoException {
         User previousUser = findById(userId);
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_LOGIN)) {
@@ -107,10 +102,11 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
             preparedStatement.executeUpdate();
             return previousUser;
         } catch (SQLException e) {
-            throw new DaoException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+            throw new DaoException("Exception while trying to update user id = " + userId + " login in db", e);
         }
     }
 
+    @Override
     public User updatePassword(int userId, String newPassword) throws DaoException {
         User previousUser = findById(userId);
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_PASSWORD)) {
@@ -119,7 +115,19 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
             preparedStatement.executeUpdate();
             return previousUser;
         } catch (SQLException e) {
-            throw new DaoException(MessageManager.getProperty(UPDATE_USER_ERROR_MSG), e);
+            throw new DaoException("Exception while trying to update user id = " + userId + " password in db", e);
+        }
+    }
+
+    @Override
+    public boolean updateLoyaltyPoints(int userId, double newPoints) throws DaoException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER_LOYALTY_POINTS)) {
+            preparedStatement.setDouble(1, newPoints);
+            preparedStatement.setInt(2, userId);
+            boolean updated = preparedStatement.executeUpdate() > 0;
+            return updated;
+        } catch (SQLException e) {
+            throw new DaoException("Exception while trying to update user id = " + userId + " loyalty points in db", e);
         }
     }
 
@@ -130,7 +138,7 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
             preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            throw new DaoException(MessageManager.getProperty(DELETE_USER_ERROR_MSG), e);
+            throw new DaoException("Exception while trying to delete user by id = " + id + " in db", e);
         }
     }
 
@@ -146,7 +154,7 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
             }
             return user;
         } catch (SQLException e) {
-            throw new DaoException(MessageManager.getProperty(FIND_USER_ERROR_MSG), e);
+            throw new DaoException("Exception while trying to find user by login and password in db", e);
         }
     }
 
@@ -161,23 +169,11 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
             }
             return user;
         } catch (SQLException e) {
-            throw new DaoException(MessageManager.getProperty(FIND_USER_ERROR_MSG), e);
+            throw new DaoException("Exception while trying to find user by login in db", e);
         }
     }
 
-    public List<User> findAll() throws DaoException {
-        List<User> userList = new ArrayList<>();
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_USERS);
-            while (resultSet.next()) {
-                userList.add(createUserFromResultSet(resultSet));
-            }
-            return userList;
-        } catch (SQLException e) {
-            throw new DaoException("Error while finding all users in db", e);
-        }
-    }
-
+    @Override
     public List<User> findActiveUsers() throws DaoException {
         List<User> userList = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
@@ -191,6 +187,7 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
         }
     }
 
+    @Override
     public List<User> findBannedUsers() throws DaoException {
         List<User> userList = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
@@ -204,6 +201,13 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
         }
     }
 
+    /**
+     * Creates the user from result set.
+     *
+     * @param resultSet the result set
+     * @return the user
+     * @throws SQLException the SQL exception
+     */
     private User createUserFromResultSet(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setId(resultSet.getInt(ID_USER));
@@ -211,7 +215,7 @@ public class UserDao extends AbstractDAO<User> implements UserDaoAction {
         user.setLogin(resultSet.getString(LOGIN));
         user.setPassword(resultSet.getString(PASSWORD));
         user.setEmail(resultSet.getString(EMAIL));
-        user.setLoyaltyPoints(resultSet.getInt(LOYALTY_POINTS));
+        user.setLoyaltyPoints(resultSet.getDouble(LOYALTY_POINTS));
         user.setBalance(resultSet.getDouble(BALANCE));
         user.setIsBanned(resultSet.getBoolean(IS_BANNED));
         user.setDeleted(resultSet.getBoolean(IS_DELETED));

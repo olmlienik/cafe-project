@@ -5,13 +5,16 @@ import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
 import by.mlionik.cafe.entity.User;
 import by.mlionik.cafe.exception.NoSuchRequestParameterException;
-import by.mlionik.cafe.service.impl.UserService;
+import by.mlionik.cafe.service.impl.UserServiceImpl;
 import by.mlionik.cafe.service.ServiceException;
 import by.mlionik.cafe.manager.ConfigurationManager;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The type Sign up command.
+ */
 public class SignUpCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
 
@@ -27,11 +30,13 @@ public class SignUpCommand implements ActionCommand {
     private static final String LOGIN_USED_ATTR = "loginUsed";
     private static final String NOT_EQUALS_PASSWORD_ATTR = "notEqualsPassword";
 
-    private UserService userService = new UserService();
+    private static UserServiceImpl userService = new UserServiceImpl();
 
     @Override
     public Router execute(SessionRequestContent requestContent) {
         String page;
+        Router router = new Router();
+        router.setRouteType(Router.RouteType.FORWARD);
         requestContent.setSessionAttribute(LOGIN_USED_ATTR, null);
         requestContent.setSessionAttribute(NOT_EQUALS_PASSWORD_ATTR, null);
         try {
@@ -40,6 +45,7 @@ public class SignUpCommand implements ActionCommand {
                     User user = userService.create(convertToUser(requestContent));
                     requestContent.setSessionAttribute(USER_ATTR, user);
                     page = ConfigurationManager.getProperty(INDEX_PAGE_PATH);
+                    router.setRouteType(Router.RouteType.REDIRECT);
                 } else {
                     requestContent.setAttribute(NOT_EQUALS_PASSWORD_ATTR, "wrong");
                     page = ConfigurationManager.getProperty(REGISTRATION_PAGE_PATH);
@@ -53,8 +59,6 @@ public class SignUpCommand implements ActionCommand {
             requestContent.setAttribute(ERROR_ATTR, e.getMessage());
             page = ConfigurationManager.getProperty(ERROR_PAGE_PATH);
         }
-        Router router = new Router();
-        router.setRouteType(Router.RouteType.FORWARD);
         router.setPagePath(page);
         return router;
     }

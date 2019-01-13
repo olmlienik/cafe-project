@@ -5,14 +5,28 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
+/**
+ * The type Footer tag.
+ */
 @SuppressWarnings("serial")
 public class FooterTag extends TagSupport {
     private String locale;
 
+    /**
+     * Sets the locale.
+     *
+     * @param locale the new locale
+     */
     public void setLocale(String locale) {
         this.locale = locale;
     }
 
+    /**
+     * Do start tag.
+     *
+     * @return the int
+     * @throws JspException the jsp exception
+     */
     @Override
     public int doStartTag() throws JspException {
         try {
@@ -29,7 +43,7 @@ public class FooterTag extends TagSupport {
             out.write("</div>");
             out.write("</footer>");
         } catch (IOException e) {
-            throw new JspException(e.getMessage());
+            throw new JspException(e);
         }
         return SKIP_BODY;
     }
