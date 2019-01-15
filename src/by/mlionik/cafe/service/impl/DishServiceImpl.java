@@ -25,24 +25,75 @@ public class DishServiceImpl implements DishService {
             return curDish;
         } catch (DaoException e) {
             manager.rollBack();
-            throw new ServiceException("Exception while trying to create dish in db", e);
+            throw new ServiceException("Exception while trying to create dish", e);
         } finally {
             manager.endTransaction();
         }
     }
 
     @Override
-    public List<Dish> findAll() throws ServiceException {
+    public List<Dish> findSnacks() throws ServiceException {
         DishDaoImpl dishDAO = new DishDaoImpl();
         TransactionManager manager = new TransactionManager();
         manager.beginTransaction(dishDAO);
         try {
-            List<Dish> allDishes = dishDAO.findAll();
+            List<Dish> allDishes = dishDAO.findSnacks();
             manager.commit();
             return allDishes;
         } catch (DaoException e) {
             manager.rollBack();
-            throw new ServiceException("Exception while trying to find all dishes in db", e);
+            throw new ServiceException("Exception while trying to find all snacks", e);
+        } finally {
+            manager.endTransaction();
+        }
+    }
+
+    @Override
+    public List<Dish> findMainDishes() throws ServiceException {
+        DishDaoImpl dishDAO = new DishDaoImpl();
+        TransactionManager manager = new TransactionManager();
+        manager.beginTransaction(dishDAO);
+        try {
+            List<Dish> allDishes = dishDAO.findMainDishes();
+            manager.commit();
+            return allDishes;
+        } catch (DaoException e) {
+            manager.rollBack();
+            throw new ServiceException("Exception while trying to find all main dishes", e);
+        } finally {
+            manager.endTransaction();
+        }
+    }
+
+    @Override
+    public List<Dish> findDeserts() throws ServiceException {
+        DishDaoImpl dishDAO = new DishDaoImpl();
+        TransactionManager manager = new TransactionManager();
+        manager.beginTransaction(dishDAO);
+        try {
+            List<Dish> allDishes = dishDAO.findDeserts();
+            manager.commit();
+            return allDishes;
+        } catch (DaoException e) {
+            manager.rollBack();
+            throw new ServiceException("Exception while trying to find all deserts", e);
+        } finally {
+            manager.endTransaction();
+        }
+    }
+
+    @Override
+    public List<Dish> findDrinks() throws ServiceException {
+        DishDaoImpl dishDAO = new DishDaoImpl();
+        TransactionManager manager = new TransactionManager();
+        manager.beginTransaction(dishDAO);
+        try {
+            List<Dish> allDrinks = dishDAO.findDrinks();
+            manager.commit();
+            return allDrinks;
+        } catch (DaoException e) {
+            manager.rollBack();
+            throw new ServiceException("Exception while trying to find all drinks", e);
         } finally {
             manager.endTransaction();
         }
@@ -56,7 +107,7 @@ public class DishServiceImpl implements DishService {
         try {
             return dishDAO.findById(id);
         } catch (DaoException e) {
-            throw new ServiceException("Exception while trying to find dish by id = " + id + " in db", e);
+            throw new ServiceException("Exception while trying to find dish by id = " + id, e);
         } finally {
             manager.endTransaction();
         }

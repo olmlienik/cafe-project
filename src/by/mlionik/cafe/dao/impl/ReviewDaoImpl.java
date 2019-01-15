@@ -18,6 +18,7 @@ import static by.mlionik.cafe.dao.impl.ReviewQuery.*;
 public class ReviewDaoImpl extends AbstractDao<Review> implements ReviewDao {
     private static final String ID_REVIEW = "id_review";
     private static final String ID_USER = "id_client";
+    private static final String LOGIN = "login";
     private static final String BODY = "body";
     private static final String DATE = "date";
 
@@ -30,7 +31,7 @@ public class ReviewDaoImpl extends AbstractDao<Review> implements ReviewDao {
             preparedStatement.executeUpdate();
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
-                review.setId(generatedKeys.getInt(1));
+                review = findById(generatedKeys.getInt(1));
             }
             return review;
         } catch (SQLException e) {
@@ -94,6 +95,7 @@ public class ReviewDaoImpl extends AbstractDao<Review> implements ReviewDao {
         Review review = new Review();
         review.setId(resultSet.getInt(ID_REVIEW));
         review.setIdClient(resultSet.getInt(ID_USER));
+        review.setLogin(resultSet.getString(LOGIN));
         review.setBody(resultSet.getString(BODY));
         review.setDate(resultSet.getString(DATE));
         return review;

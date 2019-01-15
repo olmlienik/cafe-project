@@ -3,7 +3,7 @@ package by.mlionik.cafe.dao;
 import by.mlionik.cafe.entity.Dish;
 import by.mlionik.cafe.entity.Order;
 import by.mlionik.cafe.entity.OrderPart;
-import by.mlionik.cafe.entity.type.OrderState;
+import by.mlionik.cafe.entity.OrderState;
 import java.util.List;
 
 /**

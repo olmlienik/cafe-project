@@ -23,7 +23,6 @@ public class AddToBasketCommand implements ActionCommand {
     private static final String SESSION_LAST_PAGE = "lastPage";
     private static final String ERROR_PAGE_PATH = "path.page.error";
     private static final String ERROR_ATTR = "errorMsg";
-
     private static DishServiceImpl dishService = new DishServiceImpl();
 
     @Override

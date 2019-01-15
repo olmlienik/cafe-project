@@ -3,7 +3,7 @@ package by.mlionik.cafe.command.impl.base;
 import by.mlionik.cafe.command.ActionCommand;
 import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
-import by.mlionik.cafe.entity.type.RoleType;
+import by.mlionik.cafe.entity.RoleType;
 import by.mlionik.cafe.manager.ConfigurationManager;
 
 /**

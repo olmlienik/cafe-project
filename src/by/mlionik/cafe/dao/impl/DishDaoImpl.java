@@ -4,7 +4,8 @@ import by.mlionik.cafe.dao.AbstractDao;
 import by.mlionik.cafe.dao.DaoException;
 import by.mlionik.cafe.dao.DishDao;
 import by.mlionik.cafe.entity.Dish;
-import by.mlionik.cafe.entity.type.DishType;
+import by.mlionik.cafe.entity.DishType;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,8 @@ public class DishDaoImpl extends AbstractDao<Dish> implements DishDao {
     public Dish create(Dish dish) throws DaoException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_DISH, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, dish.getName());
-            preparedStatement.setDouble(2,dish.getCost());
-            preparedStatement.setString(3,dish.getPicture());
+            preparedStatement.setDouble(2, dish.getCost());
+            preparedStatement.setString(3, dish.getPicture());
             preparedStatement.setString(4, dish.getCategory().toString().toLowerCase());
             preparedStatement.executeUpdate();
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
@@ -71,16 +72,58 @@ public class DishDaoImpl extends AbstractDao<Dish> implements DishDao {
     }
 
     @Override
-    public List<Dish> findAll() throws DaoException {
+    public List<Dish> findSnacks() throws DaoException {
         List<Dish> dishList = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_DISHES);
+            ResultSet resultSet = statement.executeQuery(SQL_SELECT_SNACKS);
             while (resultSet.next()) {
                 dishList.add(createDishFromResultSet(resultSet));
             }
             return dishList;
         } catch (SQLException e) {
-            throw new DaoException("Exception while finding all dishes in db", e);
+            throw new DaoException("Exception while finding snacks in db", e);
+        }
+    }
+
+    @Override
+    public List<Dish> findMainDishes() throws DaoException {
+        List<Dish> dishList = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(SQL_SELECT_MAIN_DISHES);
+            while (resultSet.next()) {
+                dishList.add(createDishFromResultSet(resultSet));
+            }
+            return dishList;
+        } catch (SQLException e) {
+            throw new DaoException("Exception while finding main dishes in db", e);
+        }
+    }
+
+    @Override
+    public List<Dish> findDeserts() throws DaoException {
+        List<Dish> dishList = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(SQL_SELECT_DESERTS);
+            while (resultSet.next()) {
+                dishList.add(createDishFromResultSet(resultSet));
+            }
+            return dishList;
+        } catch (SQLException e) {
+            throw new DaoException("Exception while finding deserts in db", e);
+        }
+    }
+
+    @Override
+    public List<Dish> findDrinks() throws DaoException {
+        List<Dish> dishList = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(SQL_SELECT_DRINKS);
+            while (resultSet.next()) {
+                dishList.add(createDishFromResultSet(resultSet));
+            }
+            return dishList;
+        } catch (SQLException e) {
+            throw new DaoException("Exception while finding drinks in db", e);
         }
     }
 
@@ -100,5 +143,4 @@ public class DishDaoImpl extends AbstractDao<Dish> implements DishDao {
         dish.setCategory(DishType.valueOf(resultSet.getString(CATEGORY).toUpperCase()));
         return dish;
     }
-
 }

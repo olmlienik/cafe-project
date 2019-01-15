@@ -1,7 +1,7 @@
 package by.mlionik.cafe.util;
 
 import by.mlionik.cafe.entity.User;
-import by.mlionik.cafe.entity.type.PaymentType;
+import by.mlionik.cafe.entity.PaymentType;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

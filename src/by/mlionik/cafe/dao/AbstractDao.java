@@ -2,7 +2,6 @@ package by.mlionik.cafe.dao;
 
 import by.mlionik.cafe.entity.Entity;
 import by.mlionik.cafe.pool.ProxyConnection;
-
 import java.sql.Connection;
 
 /**

@@ -1,8 +1,5 @@
 package by.mlionik.cafe.entity;
 
-import by.mlionik.cafe.entity.type.OrderState;
-import by.mlionik.cafe.entity.type.PaymentType;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,6 +89,9 @@ public class Order extends Entity {
      *
      * @param idUser the new id user
      */
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
 
     /**
      * Gets the delivery time.

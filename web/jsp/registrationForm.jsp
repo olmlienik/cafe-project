@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign up</title>
-    <link href="/css/registration.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/registration.css" rel="stylesheet">
 </head>
 <body>
 <c:set var="lastPage" value="/jsp/registrationForm.jsp" scope="session"/>
@@ -51,7 +51,7 @@
             <div class="field required email-container">
                 <input type="email" class="email" name="email"
                        placeholder="<fmt:message key="email"/>"
-                       pattern="[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+{,25}"
+                       pattern="[a-zA-Z0-9.\-_]+@[a-zA-Z]+\.[a-zA-Z]+"
                        maxlength="25"
                        title="<fmt:message key="email.requirements"/>"
                        required/>

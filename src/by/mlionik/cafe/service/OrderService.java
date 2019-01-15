@@ -2,8 +2,8 @@ package by.mlionik.cafe.service;
 
 import by.mlionik.cafe.entity.Dish;
 import by.mlionik.cafe.entity.Order;
-import by.mlionik.cafe.entity.type.OrderState;
-import by.mlionik.cafe.entity.type.PaymentType;
+import by.mlionik.cafe.entity.OrderState;
+import by.mlionik.cafe.entity.PaymentType;
 
 import java.util.List;
 

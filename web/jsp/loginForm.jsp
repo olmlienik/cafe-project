@@ -6,18 +6,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Log in</title>
-    <link href="/css/registration.css" rel="stylesheet">
-
+    <link href="${pageContext.request.contextPath}/css/registration.css" rel="stylesheet">
 </head>
-
 <body>
-
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="localization.locale"/>
 <c:set var="lastPage" value="/jsp/loginForm.jsp" scope="session"/>
-
 <c:import url="header.jsp"/>
-
 <div class="login-page">
     <div class="form">
         <form class="login-form" method="post" action="/controller">
@@ -50,10 +45,8 @@
         </form>
     </div>
 </div>
-
 <cafe:customFooter locale="${sessionScope.locale}" />
-
-<script src="/js/jquery-3.2.1.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 </body>
 </html>

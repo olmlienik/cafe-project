@@ -25,7 +25,6 @@ public class ChangePasswordCommand implements ActionCommand {
     private static final String SESSION_USER = "user";
     private static final String ERROR_PAGE_PATH = "path.page.error";
     private static final String ERROR_ATTR = "errorMsg";
-
     private static UserServiceImpl userService = new UserServiceImpl();
 
     @Override

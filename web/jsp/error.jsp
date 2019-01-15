@@ -12,7 +12,7 @@
 <%@ taglib prefix="cafe" uri="/WEB-INF/custom.tld"%>
 <html>
 <head>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
     <title>Error</title>
 </head>
 <body>

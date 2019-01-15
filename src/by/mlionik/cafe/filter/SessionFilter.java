@@ -1,6 +1,6 @@
 package by.mlionik.cafe.filter;
 
-import by.mlionik.cafe.entity.type.RoleType;
+import by.mlionik.cafe.entity.RoleType;
 import by.mlionik.cafe.manager.ConfigurationManager;
 
 import javax.servlet.*;

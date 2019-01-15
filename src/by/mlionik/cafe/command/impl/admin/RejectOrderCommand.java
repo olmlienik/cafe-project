@@ -3,7 +3,7 @@ package by.mlionik.cafe.command.impl.admin;
 import by.mlionik.cafe.command.ActionCommand;
 import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
-import by.mlionik.cafe.entity.type.OrderState;
+import by.mlionik.cafe.entity.OrderState;
 import by.mlionik.cafe.exception.NoSuchRequestParameterException;
 import by.mlionik.cafe.manager.ConfigurationManager;
 import by.mlionik.cafe.service.ServiceException;

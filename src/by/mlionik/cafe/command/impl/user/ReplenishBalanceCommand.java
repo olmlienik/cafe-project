@@ -24,7 +24,6 @@ public class ReplenishBalanceCommand implements ActionCommand {
     private static final String WRONG_BALANCE_ATTR = "wrongBalance";
     private static final String ERROR_PAGE_PATH = "path.page.error";
     private static final String ERROR_ATTR = "errorMsg";
-
     private static UserServiceImpl userService = new UserServiceImpl();
 
     @Override

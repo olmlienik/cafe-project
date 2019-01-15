@@ -4,7 +4,7 @@ import by.mlionik.cafe.command.ActionCommand;
 import by.mlionik.cafe.controller.Router;
 import by.mlionik.cafe.controller.SessionRequestContent;
 import by.mlionik.cafe.entity.Dish;
-import by.mlionik.cafe.entity.type.DishType;
+import by.mlionik.cafe.entity.DishType;
 import by.mlionik.cafe.exception.NoSuchRequestParameterException;
 import by.mlionik.cafe.manager.ConfigurationManager;
 import by.mlionik.cafe.service.ServiceException;

@@ -13,12 +13,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Cafe</title>
-    <script src="/js/jquery-3.2.1.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <link href="/css/default.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="/css/fonts.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/common.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+    <link href="${pageContext.request.contextPath}/css/default.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="${pageContext.request.contextPath}/css/fonts.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet">
 </head>
 <body>
 <c:import url="header.jsp"/>
@@ -53,13 +53,13 @@
         <div class="extra2 container">
             <div class="ebox1"><span class="fa fa-puzzle-piece"></span>
                 <div class="title">
-                    <h2><fmt:message key="cosy.atmosphere.title"/></h2>
-                    <span class="byline"><fmt:message key="cosy.atmosphere.msg"/></span></div>
+                    <h2><fmt:message key="board.games.title"/></h2>
+                    <span class="byline"><fmt:message key="board.games.msg"/></span></div>
             </div>
             <div class="ebox2"><span class="fa fa-comments-o"></span>
                 <div class="title">
-                    <h2><fmt:message key="board.games.title"/></h2>
-                    <span class="byline"><fmt:message key="board.games.msg"/></span></div>
+                    <h2><fmt:message key="cosy.atmosphere.title"/></h2>
+                    <span class="byline"><fmt:message key="cosy.atmosphere.msg"/></span></div>
             </div>
         </div>
     </div>

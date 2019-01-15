@@ -19,12 +19,36 @@ public interface DishService {
     Dish create(Dish dish) throws ServiceException;
 
     /**
-     * Finds all dishes.
+     * Finds all snacks.
      *
      * @return the list of dishes
      * @throws ServiceException the service exception
      */
-    List<Dish> findAll() throws ServiceException;
+    List<Dish> findSnacks() throws ServiceException;
+
+    /**
+     * Finds all main dishes.
+     *
+     * @return the list of dishes
+     * @throws ServiceException the service exception
+     */
+    List<Dish> findMainDishes() throws ServiceException;
+
+    /**
+     * Finds all deserts.
+     *
+     * @return the list of dishes
+     * @throws ServiceException the service exception
+     */
+    List<Dish> findDeserts() throws ServiceException;
+
+    /**
+     * Finds all drinks.
+     *
+     * @return the list of dishes
+     * @throws ServiceException the service exception
+     */
+    List<Dish> findDrinks() throws ServiceException;
 
     /**
      * Finds dish by id.

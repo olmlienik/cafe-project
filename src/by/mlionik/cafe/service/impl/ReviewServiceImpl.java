@@ -37,16 +37,10 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<Review> findAll() throws ServiceException {
         ReviewDaoImpl reviewDao = new ReviewDaoImpl();
-        UserDaoImpl userDao = new UserDaoImpl();
         TransactionManager manager = new TransactionManager();
-        manager.beginTransaction(reviewDao, userDao);
+        manager.beginTransaction(reviewDao);
         try {
             List<Review> allReviews = reviewDao.findAll();
-            User user;
-            for (Review review : allReviews) {
-                user = userDao.findById(review.getIdClient());
-                review.setLogin(user.getLogin());
-            }
             manager.commit();
             return allReviews;
         } catch (DaoException e) {

@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Logger;
  */
 public class SignUpCommand implements ActionCommand {
     private static final Logger logger = LogManager.getLogger();
-
     private static final String USER_ATTR = "user";
     private static final String INDEX_PAGE_PATH = "path.page.index";
     private static final String REGISTRATION_PAGE_PATH = "path.page.registration";
@@ -29,7 +28,6 @@ public class SignUpCommand implements ActionCommand {
     private static final String ERROR_ATTR = "errorMsg";
     private static final String LOGIN_USED_ATTR = "loginUsed";
     private static final String NOT_EQUALS_PASSWORD_ATTR = "notEqualsPassword";
-
     private static UserServiceImpl userService = new UserServiceImpl();
 
     @Override
@@ -63,6 +61,13 @@ public class SignUpCommand implements ActionCommand {
         return router;
     }
 
+    /**
+     * Converts parameters from request content to user type.
+     *
+     * @param requestContent the request content
+     * @return the user
+     * @throws NoSuchRequestParameterException the no such request parameter exception
+     */
     private User convertToUser(SessionRequestContent requestContent) throws NoSuchRequestParameterException {
         User user = new User();
         user.setLogin(requestContent.getParameter(LOGIN_PARAM));

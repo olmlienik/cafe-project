@@ -10,10 +10,12 @@ import by.mlionik.cafe.service.impl.ReviewServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Comparator;
 import java.util.List;
 
 /**
- * The Class Find all reviews command.
+ * The type Find all reviews command.
  */
 public class FindAllReviewsCommand implements ActionCommand {
     private static Logger logger = LogManager.getLogger();
@@ -28,6 +30,7 @@ public class FindAllReviewsCommand implements ActionCommand {
         String page;
         try {
             List<Review> reviewList = reviewService.findAll();
+            reviewList.sort(Comparator.comparingInt(Review::getId).reversed());
             requestContent.setAttribute(REVIEWS_ATTR, reviewList);
             page = ConfigurationManager.getProperty(REVIEWS_PAGE_PATH);
         } catch (ServiceException e) {

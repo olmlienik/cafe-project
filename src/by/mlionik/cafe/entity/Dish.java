@@ -1,7 +1,5 @@
 package by.mlionik.cafe.entity;
 
-import by.mlionik.cafe.entity.type.DishType;
-
 /**
  * The type Dish.
  */

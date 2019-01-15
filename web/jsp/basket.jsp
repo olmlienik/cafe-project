@@ -12,7 +12,7 @@
 <html>
 <head>
     <title>My basket</title>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <fmt:setLocale value="${sessionScope.locale}"/>

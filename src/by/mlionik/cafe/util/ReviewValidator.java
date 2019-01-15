@@ -14,7 +14,7 @@ public class ReviewValidator {
      * @return true, if successful
      */
     public static boolean checkReviewBody(String body){
-        int length = body.length();
+        int length = body.trim().length();
         return (length >= MIN_LENGTH && length <= MAX_LENGTH);
     }
 }

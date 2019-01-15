@@ -1,7 +1,5 @@
 package by.mlionik.cafe.entity;
 
-import by.mlionik.cafe.entity.type.RoleType;
-
 import java.util.ArrayList;
 import java.util.List;
 

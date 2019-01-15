@@ -22,7 +22,6 @@ public class BanUserCommand implements ActionCommand {
     private static final String ERROR_ATTR = "errorMsg";
     private static UserServiceImpl userService = new UserServiceImpl();
 
-
     @Override
     public Router execute(SessionRequestContent requestContent) {
         String page;

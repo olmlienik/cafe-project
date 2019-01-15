@@ -11,9 +11,9 @@
 <%@ taglib prefix="cafe" uri="/WEB-INF/custom.tld" %>
 <html>
 <head>
-    <link href="/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="/js/jquery-3.2.1.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
+    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
     <title>Current orders</title>
 </head>
 <body>

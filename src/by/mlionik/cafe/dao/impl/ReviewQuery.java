@@ -23,14 +23,13 @@ class ReviewQuery {
      * The Select review by id.
      */
     static final String SQL_SELECT_REVIEW_BY_ID = "SELECT \n" +
-            "    `review`.`id_review`,\n" +
-            "    `review`.`id_client`,\n" +
-            "    `review`.`body`,\n" +
-            "    `review`.`date`\n" +
-            "FROM\n" +
-            "    `cafe`.`review`\n" +
-            "WHERE\n" +
-            "    `review`.`id_review` = ?\n";
+            "`review`.`id_review`,\n" +
+            "`review`.`id_client`,\n" +
+            "`user`.`login`,\n" +
+            "`review`.`body`,\n" +
+            "`review`.`date`\n" +
+            "FROM `cafe`.`review` INNER JOIN  `cafe`.`user` ON  `cafe`.`review`.`id_client` = `cafe`.`user`.`id_user`\n" +
+            "WHERE `review`.`id_review` = ?";
 
     /**
      * The Delete review by id.
@@ -47,8 +46,9 @@ class ReviewQuery {
     static final String SQL_SELECT_ALL_REVIEWS = "SELECT \n" +
             "`review`.`id_review`,\n" +
             "`review`.`id_client`,\n" +
+            "`user`.`login`,\n" +
             "`review`.`body`,\n" +
             "`review`.`date`\n" +
-            "FROM `cafe`.`review`\n" +
+            "FROM `cafe`.`review` INNER JOIN  `cafe`.`user` ON  `cafe`.`review`.`id_client` = `cafe`.`user`.`id_user`\n" +
             "WHERE `review`.`is_deleted` = 0";
 }

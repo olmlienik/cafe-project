@@ -4,7 +4,7 @@ import by.mlionik.cafe.dao.AbstractDao;
 import by.mlionik.cafe.dao.DaoException;
 import by.mlionik.cafe.dao.UserDao;
 import by.mlionik.cafe.entity.User;
-import by.mlionik.cafe.entity.type.RoleType;
+import by.mlionik.cafe.entity.RoleType;
 import org.apache.commons.codec.digest.DigestUtils;
 import java.sql.*;
 import java.util.ArrayList;
@@ -221,5 +221,4 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         user.setDeleted(resultSet.getBoolean(IS_DELETED));
         return user;
     }
-
 }

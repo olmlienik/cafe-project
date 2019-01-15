@@ -9,9 +9,11 @@ import by.mlionik.cafe.manager.ConfigurationManager;
 import by.mlionik.cafe.service.ServiceException;
 import by.mlionik.cafe.service.impl.ReviewServiceImpl;
 import by.mlionik.cafe.util.ReviewValidator;
+import by.mlionik.cafe.util.XssPrevention;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -24,7 +26,6 @@ public class AddReviewCommand implements ActionCommand {
     private static final String BODY_PARAM = "body";
     private static final String SESSION_LAST_PAGE = "lastPage";
     private static final String INVALID_BODY_ATTR = "invalidBody";
-    private static final String XSS_PATTERN = "<(|\\/|[^\\/>][^>]+|\\/[^>][^>]+)>";
     private static final String ERROR_PAGE_PATH = "path.page.error";
     private static final String ERROR_ATTR = "errorMsg";
     private static ReviewServiceImpl reviewService = new ReviewServiceImpl();
@@ -35,8 +36,8 @@ public class AddReviewCommand implements ActionCommand {
         try {
             int idUser = Integer.parseInt(requestContent.getParameter(USER_ID_PARAM));
             String body = requestContent.getParameter(BODY_PARAM);
+            body = XssPrevention.resetScripts(body);
             if (ReviewValidator.checkReviewBody(body)) {
-                body = body.replaceAll(XSS_PATTERN, "");
                 String currentDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(new Date());
                 Review review = new Review(idUser, body, currentDate);
                 reviewService.create(review);

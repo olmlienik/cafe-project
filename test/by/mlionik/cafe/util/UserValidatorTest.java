@@ -78,7 +78,9 @@ public class UserValidatorTest {
                 {"email67@", false},
                 {"email67@gmail", false},
                 {"email67@gmail.", false},
-                {"email67@gmail.com", true},
+                {"em-ail67@gmail.com", true},
+                {"em_ail67@gmail.com", true},
+                {"em.ail67@gmail.com", true},
                 {"7email67@gmail.com", true},
                 {"too_long_login_to_be_wright_actually", false}
         };

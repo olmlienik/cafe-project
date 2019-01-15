@@ -1,7 +1,7 @@
 package by.mlionik.cafe.util;
 
 import by.mlionik.cafe.entity.User;
-import by.mlionik.cafe.entity.type.PaymentType;
+import by.mlionik.cafe.entity.PaymentType;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

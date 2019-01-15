@@ -12,8 +12,8 @@
 <html>
 <head>
     <title>Reviews</title>
-    <link href="/css/review.css" rel="stylesheet" media='all'>
-    <link href="/css/bootstrap.min.css">
+    <link href="${pageContext.request.contextPath}/css/review.css" rel="stylesheet" media='all'>
+    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 </head>
 <body>
 <fmt:setLocale value="${sessionScope.locale}"/>

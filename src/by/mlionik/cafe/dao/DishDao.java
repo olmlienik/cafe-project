@@ -9,10 +9,34 @@ import java.util.List;
 public interface DishDao {
 
     /**
-     * Finds all dishes in database.
+     * Finds all snacks in database.
      *
      * @return the list of dishes
      * @throws DaoException the dao exception
      */
-    List<Dish> findAll() throws DaoException;
+    List<Dish> findSnacks() throws DaoException;
+
+    /**
+     * Finds all main dishes in database.
+     *
+     * @return the list of dishes
+     * @throws DaoException the dao exception
+     */
+    List<Dish> findMainDishes() throws DaoException;
+
+    /**
+     * Finds all deserts in database.
+     *
+     * @return the list of dishes
+     * @throws DaoException the dao exception
+     */
+    List<Dish> findDeserts() throws DaoException;
+
+    /**
+     * Finds all drinks in database.
+     *
+     * @return the list of dishes
+     * @throws DaoException the dao exception
+     */
+    List<Dish> findDrinks() throws DaoException;
 }

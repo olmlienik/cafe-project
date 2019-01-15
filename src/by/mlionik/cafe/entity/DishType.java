@@ -1,5 +1,8 @@
-package by.mlionik.cafe.entity.type;
+package by.mlionik.cafe.entity;
 
+/**
+ * The type Dish type.
+ */
 public enum DishType {
     SNACK,
     MAIN,
