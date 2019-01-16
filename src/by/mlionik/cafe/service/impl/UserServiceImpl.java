@@ -44,7 +44,6 @@ public class UserServiceImpl implements UserService {
         try {
             User user = Optional.ofNullable(userDAO.findById(id))
                     .orElseThrow(() -> new ServiceException("Exception while finding user by id = " + id));
-            //todo add reviews to list
             return user;
         } catch (DaoException e) {
             throw new ServiceException("Exception while finding user by id = " + id, e);

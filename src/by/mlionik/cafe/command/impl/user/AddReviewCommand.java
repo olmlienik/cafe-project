@@ -38,7 +38,7 @@ public class AddReviewCommand implements ActionCommand {
             String body = requestContent.getParameter(BODY_PARAM);
             body = XssPrevention.resetScripts(body);
             if (ReviewValidator.checkReviewBody(body)) {
-                String currentDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(new Date());
+                String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
                 Review review = new Review(idUser, body, currentDate);
                 reviewService.create(review);
             } else {

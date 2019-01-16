@@ -21,6 +21,7 @@
                 <input type="text" class="login" name="login"
                        placeholder="<fmt:message key="username"/>"
                        pattern="^([a-zA-Z]+)[a-zA-Z\d_]{4,25}$"
+                       maxlength="25"
                        title="<fmt:message key="login.requirements"/>"
                        required/>
             </div>
@@ -28,6 +29,7 @@
                 <input type="password" id="password" class="password" name="password"
                        placeholder="<fmt:message key="password"/>"
                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,25}$"
+                       maxlength="25"
                        title="<fmt:message key="password.requirements"/>"
                        required/>
             </div>
